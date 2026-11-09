@@ -1,0 +1,5 @@
+.legal-container { padding: 12px; height: 100vh; box-sizing: border-box; }
+.section { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); padding: 16px; margin-bottom: 12px; }
+.section-title { font-size: 16px; font-weight: 600; color: #1A1A1A; margin-bottom: 8px; }
+.section-content text { display: block; line-height: 1.7; font-size: 13px; color: #666666; margin-bottom: 6px; }
+.bottom-space { height: 72px; }

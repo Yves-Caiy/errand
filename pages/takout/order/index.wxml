@@ -1,0 +1,81 @@
+<app-header title="点餐" showBack="{{true}}" bind:back="onBack"></app-header>
+<view class="container">
+  <!-- 顶部店铺信息 -->
+  <view class="shop-card">
+    <image class="shop-img" src="{{shop.avatarUrl}}" mode="aspectFill"></image>
+    <view class="meta">
+      <view class="name">{{shop.name}}</view>
+      <view class="desc">{{shop.desc}}</view>
+    </view>
+  </view>
+
+  <view class="content">
+    <!-- 菜单区域 -->
+    <view class="menu-area">
+      <scroll-view class="category-pane" scroll-y="true">
+        <block wx:for="{{categories}}" wx:key="name">
+          <view class="category-item {{activeCategory === item.name ? 'active' : ''}}" data-name="{{item.name}}" bindtap="onCategoryTap">{{item.name}}</view>
+        </block>
+      </scroll-view>
+
+      <scroll-view class="dish-pane" scroll-y="true">
+        <block wx:for="{{filteredDishes}}" wx:key="id">
+          <view class="dish-item">
+            <image class="dish-img" src="{{item.img}}" mode="aspectFill"></image>
+            <view class="dish-info">
+              <view class="info-line name">{{item.name}}</view>
+              <view class="info-line desc">{{item.desc}}</view>
+              <view class="info-line action-row">
+                <view class="price">￥{{item.price}}</view>
+                <button class="add-btn" data-id="{{item.id}}" bindtap="onAddTap">加入购物车</button>
+              </view>
+            </view>
+          </view>
+        </block>
+      <view class="bottom-space"></view>
+      </scroll-view>
+    </view>
+
+    <!-- 购物车悬浮图标 -->
+    <movable-area class="cart-movable-area">
+      <movable-view class="cart-movable-view" direction="all" x="{{cartX}}" y="{{cartY}}">
+        <view class="cart-icon-wrapper" bindtap="toggleCart">
+          <image class="cart-icon" src="/static/icons/shoppingcart.svg" mode="aspectFit" />
+          <view class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</view>
+        </view>
+      </movable-view>
+    </movable-area>
+
+    <!-- 购物车弹窗 -->
+    <view class="cart-popup {{cartVisible ? 'show' : ''}}">
+      <view class="cart-header">
+        <text>购物车</text>
+        <view class="clear-cart" bindtap="onClearCart">清空</view>
+      </view>
+      <scroll-view class="cart-list" scroll-y>
+        <block wx:for="{{cartList}}" wx:key="id">
+          <view class="cart-item">
+            <icon type="{{item.isSelected ? 'success' : 'circle'}}" color="#07c160" size="20" data-index="{{index}}" bindtap="onToggleSelect" />
+            <image class="cart-item-img" src="{{item.imageUrl}}" mode="aspectFill" />
+            <view class="cart-item-info">
+              <view class="cart-item-name">{{item.productName}}</view>
+              <view class="cart-item-price">￥{{item.price / 100}}</view>
+            </view>
+            <view class="cart-item-action">
+              <view class="qty-btn minus" data-item="{{item}}" bindtap="onMinusQty">-</view>
+              <view class="qty-num">{{item.quantity}}</view>
+              <view class="qty-btn plus" data-item="{{item}}" bindtap="onPlusQty">+</view>
+            </view>
+          </view>
+        </block>
+        <view wx:if="{{cartList.length === 0}}" class="empty-cart">购物车是空的</view>
+      </scroll-view>
+    </view>
+
+    <!-- 底部结算栏 -->
+    <view class="checkout-bar">
+      <view class="total-price">合计：￥{{totalPrice}}</view>
+      <button class="submit-btn" bindtap="onSubmit">下单</button>
+    </view>
+  </view>
+</view>

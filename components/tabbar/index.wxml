@@ -1,0 +1,19 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<view class="tabbar-placeholder" style="height: {{barHeight}}px;"></view>
+<view class="tabbar" style="height: {{barHeight}}px; padding-bottom: {{safeBottom}}px;">
+  <view class="tabbar-content">
+    <block wx:for="{{items}}" wx:key="key">
+      <view
+        class="tab-item {{active === item.key ? 'active' : ''}}"
+        bindtap="onItemTap"
+        data-key="{{item.key}}"
+      >
+        <view class="icon-wrap">
+          <image class="icon" src="{{active === item.key ? item.iconActive : item.iconDefault}}" mode="aspectFit"></image>
+          <view class="dot" wx:if="{{item.key === 'me' && meDot}}">{{meDotCount > 99 ? '99+' : meDotCount}}</view>
+        </view>
+        <text class="label">{{i18n.t(locale, item.label)}}</text>
+      </view>
+    </block>
+  </view>
+</view>

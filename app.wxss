@@ -1,0 +1,115 @@
+@import "miniprogram_npm/@vant/weapp/common/index.wxss";
+@import "miniprogram_npm/@vant/weapp/common/style/var.wxss";
+
+/* ===================== 设计令牌 ===================== */
+page {
+  /* 主色 - 蓝：行动、可信赖、快 */
+  --primary: #1677FF;
+  --primary-dark: #0958D9;
+  --primary-light: #4096FF;
+  --primary-bg: rgba(22, 119, 255, 0.08);
+  --primary-bg-solid: #F0F6FF;
+
+  /* 辅助色 - 绿：完成、成功 */
+  --success: #07C160;
+  --success-bg: rgba(7, 193, 96, 0.1);
+
+  /* 功能色 */
+  --danger: #F53F3F;
+  --danger-bg: rgba(245, 63, 63, 0.08);
+  --warning: #FF9A2E;
+  --warning-bg: rgba(255, 154, 46, 0.1);
+
+  /* 中性色 */
+  --bg: #F5F6F8;
+  --card: #FFFFFF;
+  --text: #1A1A1A;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-placeholder: #BBBBBB;
+  --border: #EEF0F3;
+  --border-strong: #E3E5E9;
+
+  /* 微质感 */
+  --radius-sm: 12rpx;
+  --radius: 20rpx;
+  --radius-lg: 28rpx;
+  --shadow-card: 0 4rpx 16rpx rgba(26, 26, 26, 0.04);
+  --shadow-float: 0 8rpx 24rpx rgba(22, 119, 255, 0.16);
+
+  background: var(--bg);
+  color: var(--text);
+  font-size: 28rpx;
+  line-height: 1.5;
+
+  /* Vant 主题对齐 */
+  --van-primary-color: #1677FF;
+  --van-success-color: #07C160;
+  --van-danger-color: #F53F3F;
+  --van-warning-color: #FF9A2E;
+  --van-text-color: #1A1A1A;
+  --van-text-color-2: #666666;
+  --van-text-color-3: #999999;
+  --van-border-color: #EEF0F3;
+  --van-background-color: #F5F6F8;
+  --van-background-color-light: #FFFFFF;
+  --van-active-color: #F0F1F3;
+}
+
+/* ===================== 基础 ===================== */
+.page, page {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}
+
+/* ===================== 按压反馈：缩放 + 颜色加深 ===================== */
+button {
+  transition: transform 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* 可按压容器（view 场景） */
+.pressable {
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.pressable:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* 主要按钮：实心蓝，按下加深 */
+.btn-primary {
+  background: var(--primary) !important;
+  color: #fff;
+  box-shadow: var(--shadow-float);
+}
+
+.btn-primary:active {
+  background: var(--primary-dark) !important;
+  box-shadow: none;
+}
+
+/* 次要按钮：描边蓝 */
+.btn-outline {
+  background: #fff !important;
+  color: var(--primary) !important;
+  border: 2rpx solid var(--primary) !important;
+  box-shadow: none;
+}
+
+.btn-outline:active {
+  background: var(--primary-bg-solid) !important;
+}

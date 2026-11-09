@@ -1,0 +1,167 @@
+page {
+  background: #F5F6F8;
+  padding-bottom: 200rpx;
+}
+
+.container {
+  display: block;
+  padding: 12rpx;
+  box-sizing: border-box;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 12rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 16rpx;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #EEF0F3;
+}
+
+.form-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 160rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.input-field, .picker-field {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333333;
+  text-align: right;
+}
+
+.picker-value.placeholder {
+  color: #999999;
+}
+
+.form-col {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx 0;
+}
+
+.textarea-field {
+  width: 100%;
+  height: 160rpx;
+  background: #F5F6F8;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+/* Tip Card */
+.tip-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin-bottom: 12rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+}
+
+.tip-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1677FF;
+  margin-bottom: 12rpx;
+}
+
+.tip-content {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.5;
+}
+
+.bottom-space {
+  height: 250rpx;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  padding: 24rpx 24rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; Removed to rely on absolute positioning */
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.price-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label {
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 4rpx;
+}
+
+.price-val {
+  display: flex;
+  align-items: baseline;
+  color: #FF9A2E;
+}
+
+.currency {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.amount {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.submit-btn {
+  position: absolute;
+  right: 12rpx;
+  top: 24rpx; /* Matches padding-top of bottom-bar */
+  margin: 0 !important;
+  width: auto !important;
+  padding: 0 64rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #1677FF;
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 600;
+  border-radius: 40rpx;
+  box-shadow: 0 8rpx 16rpx rgba(22, 119, 255, 0.3);
+}
+
+.submit-btn::after {
+  border: none;
+}
+
+/* 按压反馈：颜色加深*/
+.submit-btn:active,
+.add-btn:active {
+  background: #0958D9;
+}

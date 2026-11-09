@@ -1,0 +1,6 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'法律条款及隐私政策')}}" bindback="onBack"></app-header>
+
+<scroll-view class="legal-container" scroll-y="true">
+  <rich-text nodes="{{policyHtml}}"></rich-text>
+</scroll-view>

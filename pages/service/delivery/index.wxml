@@ -1,0 +1,114 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{serviceName}}" bindback="onBack"></app-header>
+<view class="container">
+  <!-- Address Card -->
+  <view class="form-card">
+    <view class="section-title">{{i18n.t(locale,'配送地址')}}</view>
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'起始地址')}}</text>
+      <input 
+        class="input-field" 
+        placeholder="{{i18n.t(locale,'请输入起始地址')}}" 
+        value="{{startAddress}}" 
+        bindinput="onInput"
+        data-key="startAddress"
+      />
+    </view>
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'配送地址')}}</text>
+      <input 
+        class="input-field" 
+        placeholder="{{i18n.t(locale,'请输入配送地址')}}" 
+        value="{{endAddress}}" 
+        bindinput="onInput"
+        data-key="endAddress"
+      />
+    </view>
+  </view>
+
+  <!-- Specs Card -->
+  <view class="form-card">
+    <view class="section-title">{{i18n.t(locale,'配送信息')}}</view>
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'配送规格')}}</text>
+      <picker 
+        class="picker-field" 
+        mode="selector" 
+        range="{{productRange}}" 
+        value="{{specIndex}}" 
+        bindchange="onSpecChange"
+      >
+        <view class="picker-value {{specIndex !== null ? '' : 'placeholder'}}">
+          {{specIndex !== null ? productRange[specIndex] : i18n.t(locale,'请选择配送规格')}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- Time Range Card -->
+  <view class="form-card">
+    <view class="section-title">{{i18n.t(locale,'预约时间')}}</view>
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'预约开始')}}</text>
+      <picker 
+        class="picker-field" 
+        mode="multiSelector" 
+        range="{{timeRange}}" 
+        value="{{startTimeIndex}}" 
+        bindchange="onStartTimeChange"
+      >
+        <view class="picker-value {{startTime ? '' : 'placeholder'}}">
+          {{startTime || i18n.t(locale,'请选择开始时间')}}
+        </view>
+      </picker>
+    </view>
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'预约结束')}}</text>
+      <picker 
+        class="picker-field" 
+        mode="multiSelector" 
+        range="{{timeRange}}" 
+        value="{{endTimeIndex}}" 
+        bindchange="onEndTimeChange"
+      >
+        <view class="picker-value {{endTime ? '' : 'placeholder'}}">
+          {{endTime || i18n.t(locale,'请选择结束时间')}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- Remark Card -->
+  <view class="form-card">
+    <view class="form-col">
+      <text class="label">{{i18n.t(locale,'备注信息')}}</text>
+      <textarea 
+        class="textarea-field" 
+        placeholder="{{i18n.t(locale,'物品过重或距离过远时，需备注')}}" 
+        value="{{remark}}" 
+        bindinput="onInput"
+        data-key="remark"
+      ></textarea>
+    </view>
+  </view>
+
+  <!-- Tip Card -->
+  <view class="tip-card">
+    <view class="tip-title">{{i18n.t(locale,'服务说明')}}</view>
+    <view class="tip-content">{{i18n.t(locale,'物品过重或距离过远时，需线下协商补差价。')}}</view>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>
+
+<!-- Bottom Bar -->
+<view class="bottom-bar">
+  <view class="price-section">
+    <text class="price-label">{{i18n.t(locale,'预估价格')}}</text>
+    <view class="price-val">
+      <text class="currency">￥</text>
+      <text class="amount">{{totalPrice}}</text>
+    </view>
+  </view>
+  <button class="submit-btn" bindtap="onSubmit">{{i18n.t(locale,'立即下单')}}</button>
+</view>

@@ -1,0 +1,129 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<view class="order-module">
+  <!-- 头部筛选区域 -->
+  <view class="header-section">
+    <view class="main-tabs">
+      <view class="tab-item {{activeTab === 'all' ? 'active' : ''}}" data-key="all" bindtap="onTabTap">{{i18n.t(locale,'全部')}}</view>
+      <view class="tab-item {{activeTab === 'latest' ? 'active' : ''}}" data-key="latest" bindtap="onTabTap">{{i18n.t(locale,'最新')}}</view>
+    </view>
+    
+    <scroll-view scroll-x class="filter-scroll" enable-flex>
+      <view class="filter-row">
+        <block wx:for="{{typeFilters}}" wx:key="type">
+          <view class="filter-chip {{activeType === item ? 'active' : ''}}" data-type="{{item}}" bindtap="onTypeTap">{{i18n.t(locale, item)}}</view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="order-list">
+    <block wx:for="{{displayOrders}}" wx:key="id">
+      <view class="order-item">
+        <!-- 头部：订单号 + 状态标签 -->
+        <view class="card-header">
+          <view class="order-id">
+            <text class="label">{{i18n.t(locale,'订单号')}}</text>
+            <text class="value">{{item.orderNo}}</text>
+          </view>
+          <view class="status-tag">{{i18n.t(locale, item.cardTag)}}</view>
+        </view>
+
+        <!-- 内容区域：根据类型展示不同字段 -->
+        <view class="card-content">
+          <!-- 类型 1/2 显示 -->
+          <block wx:if="{{item.orderType === 1 || item.orderType === 2}}">
+            <view class="info-row" wx:if="{{item.runnerNickname}}">
+              <text class="info-label">{{i18n.t(locale,'接单员')}}</text>
+              <text class="info-value">{{item.runnerNickname}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">{{i18n.t(locale,'小区')}}</text>
+              <text class="info-value">{{item.communityName}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">{{i18n.t(locale,'地址')}}</text>
+              <text class="info-value">{{item.detailAddress}}</text>
+            </view>
+          </block>
+
+          <!-- 类型 4 显示 -->
+          <block wx:if="{{item.orderType === 4}}">
+            <view class="info-row" wx:if="{{item.runnerNickname}}">
+              <text class="info-label">{{i18n.t(locale,'接单员')}}</text>
+              <text class="info-value">{{item.runnerNickname}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">{{i18n.t(locale,'小区')}}</text>
+              <text class="info-value">{{item.communityName}}</text>
+            </view>
+            <view class="info-row" wx:if="{{item.startAddress}}">
+              <text class="info-label">{{i18n.t(locale,'起始地')}}</text>
+              <text class="info-value">{{item.startAddress}}</text>
+            </view>
+            <view class="info-row" wx:if="{{item.endAddress}}">
+              <text class="info-label">{{i18n.t(locale,'目的地')}}</text>
+              <text class="info-value">{{item.endAddress}}</text>
+            </view>
+            <view class="info-row" wx:if="{{item.itemDesc}}">
+              <text class="info-label">{{i18n.t(locale,'需求')}}</text>
+              <text class="info-value">{{item.itemDesc}}</text>
+            </view>
+            <view class="info-row" wx:if="{{item.budget}}">
+              <text class="info-label">{{i18n.t(locale,'预算')}}</text>
+              <text class="info-value price">￥{{item.budget}}</text>
+            </view>
+            <view class="info-row" wx:if="{{item.specName}}">
+              <text class="info-label">{{i18n.t(locale,'规格')}}</text>
+              <text class="info-value">{{item.specName}}</text>
+            </view>
+            <view class="info-row" wx:if="{{item.wechatId}}">
+              <text class="info-label">{{i18n.t(locale,'微信号')}}</text>
+              <text class="info-value">{{item.wechatId}}</text>
+            </view>
+          </block>
+
+          <!-- 通用时间信息 -->
+          <view class="info-divider"></view>
+          
+          <view class="info-row" wx:if="{{item.payTime}}">
+            <text class="info-label">{{i18n.t(locale,'支付时间')}}</text>
+            <text class="info-value dim">{{item.payTime}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.status === 3 && item.finishTime}}">
+            <text class="info-label">{{i18n.t(locale,'完成时间')}}</text>
+            <text class="info-value dim">{{item.finishTime}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.status === 4 && item.cancelReason}}">
+            <text class="info-label">{{i18n.t(locale,'取消原因')}}</text>
+            <text class="info-value warning">{{item.cancelReason}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'下单时间')}}</text>
+            <text class="info-value dim">{{item.createTime}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'服务描述')}}</text>
+            <text class="info-value dim">{{item.note || i18n.t(locale,'无')}}</text>
+          </view>
+        </view>
+
+        <!-- 底部：价格与操作 -->
+        <view class="card-footer">
+          <view class="total-price">
+            <text class="label">{{i18n.t(locale,'实付')}}</text>
+            <text class="amount">￥{{item.actualAmount}}</text>
+          </view>
+          <button class="take-btn" size="mini" bindtap="onTakeTap" data-id="{{item.id}}">{{i18n.t(locale,'我要接单')}}</button>
+        </view>
+      </view>
+    </block>
+
+    <view class="load-more-container" wx:if="{{displayOrders.length > 0}}">
+      <view class="load-more-text" wx:if="{{loading}}">{{i18n.t(locale,'正在加载中...')}}</view>
+      <view class="load-more-btn" wx:elif="{{hasMore}}" bindtap="onLoadMore">
+        <text>{{i18n.t(locale,'点击加载更多')}}</text>
+      </view>
+      <view class="load-more-text" wx:else>{{i18n.t(locale,'没有更多订单了')}}</view>
+    </view>
+  </view>
+</view>

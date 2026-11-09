@@ -1,0 +1,9 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<van-grid column-num="4" gutter="8" clickable="{{false}}" border="{{false}}">
+  <van-grid-item wx:for="{{renderList}}" wx:key="typeName" use-slot bind:click="onTap" data-name="{{item.typeName}}">
+    <view class="grid-item" hover-class="grid-item-hover" hover-stay-time="70">
+      <image class="grid-icon" src="{{item.iconUrlAbs || '/static/icons/service.svg'}}" mode="aspectFit" />
+      <text class="grid-name">{{item.typeName}}</text>
+    </view>
+  </van-grid-item>
+</van-grid>

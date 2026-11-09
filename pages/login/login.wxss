@@ -1,0 +1,170 @@
+/* 页面容器 */
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 内容区域，设置登录背景图 */
+.content {
+  flex: 1;
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* 背景图填充 content 容器 */
+.bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* 遮罩：顶部压暗保证标题可读，中部保留通透，底部托起按钮 */
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(3, 9, 22, 0.42) 0%,
+    rgba(3, 9, 22, 0.06) 34%,
+    rgba(2, 6, 16, 0.30) 72%,
+    rgba(2, 6, 16, 0.62) 100%
+  );
+}
+
+/* ── 品牌标题区（社区便民服务主题） ── */
+.brand {
+  position: absolute;
+  z-index: 2;
+  top: calc(env(safe-area-inset-top) + 128rpx);
+  left: 0;
+  right: 0;
+  padding: 0 64rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brand-eyebrow {
+  font-size: 22rpx;
+  font-weight: 500;
+  letter-spacing: 6rpx;
+  color: rgba(140, 200, 255, 0.85);
+  margin-bottom: 22rpx;
+}
+
+.brand-title {
+  font-size: 72rpx;
+  line-height: 1.16;
+  font-weight: 800;
+  letter-spacing: 4rpx;
+  color: #ffffff;
+  text-shadow: 0 0 32rpx rgba(64, 160, 255, 0.55), 0 6rpx 20rpx rgba(0, 20, 60, 0.55);
+}
+
+.brand-sub {
+  margin-top: 22rpx;
+  font-size: 26rpx;
+  letter-spacing: 2rpx;
+  color: rgba(214, 233, 255, 0.78);
+}
+
+.brand-line {
+  margin-top: 30rpx;
+  width: 96rpx;
+  height: 6rpx;
+  border-radius: 6rpx;
+  background: linear-gradient(90deg, #22d3ee 0%, #1677ff 100%);
+  box-shadow: 0 0 20rpx rgba(34, 211, 238, 0.55);
+}
+
+/* 登录视图容器（位置保持不变） */
+.login-view {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 120rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+/* 一键登录按钮 */
+.login-button {
+  width: 560rpx;
+  height: 96rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 60rpx;
+  background: linear-gradient(135deg, #1677FF 0%, #0958D9 100%);
+  border: 1rpx solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8rpx 24rpx rgba(22, 119, 255, 0.35), 0 0 40rpx rgba(34, 211, 238, 0.18);
+  margin-bottom: 32rpx;
+}
+
+.login-button .button-text {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 2rpx;
+}
+
+.login-button:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #0958D9 0%, #0443B0 100%);
+}
+
+/* 登录提示行（位置保持不变） */
+.login-tip {
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 勾选视图（圆形边框） */
+.select-view {
+  width: 34rpx;
+  height: 34rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12rpx;
+  border: 2rpx solid rgba(160, 200, 255, 0.75);
+  border-radius: 50%;
+}
+
+/* 勾选后填充背景色 */
+.select-view.selected {
+  background: linear-gradient(135deg, #1677FF 0%, #0958D9 100%);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4rpx 12rpx rgba(22, 119, 255, 0.35);
+}
+
+/* 文本样式 */
+.tip-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.tip-text-highlight {
+  font-size: 24rpx;
+  color: #4DA6FF;
+  margin-left: 8rpx;
+}

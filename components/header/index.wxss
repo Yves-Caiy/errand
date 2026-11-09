@@ -1,0 +1,72 @@
+/* 顶部自定义标题栏 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--primary, #1677FF);
+  box-shadow: 0 2rpx 12rpx rgba(22, 119, 255, 0.12);
+  z-index: 999;
+}
+
+.header-content {
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.left, .right {
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.community-picker { width: 100%; }
+.picker-display {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 18px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  border-radius: 14px;
+  padding: 2px 0;
+  display: flex;
+  align-items: center;
+}
+
+.loc-icon {
+  width: 30px;
+  height: 36px;
+  margin-right: 4px;
+}
+
+.picker-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.header-placeholder {
+  width: 100%;
+}

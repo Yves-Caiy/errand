@@ -1,0 +1,60 @@
+.container {
+  display: block;
+  padding: 20rpx;
+  background-color: #F5F6F8;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.package-item {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.package-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #EEF0F3;
+}
+
+.package-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1A1A1A;
+}
+
+.package-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+.package-status.active {
+  color: #07c160;
+  background-color: rgba(7, 193, 96, 0.1);
+}
+
+.package-status.expired {
+  color: #999;
+  background-color: #F5F6F8;
+}
+
+.package-info text {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding-top: 100rpx;
+  color: #999;
+  font-size: 28rpx;
+}

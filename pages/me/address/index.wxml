@@ -1,0 +1,28 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'详细地址设置')}}" showBack="{{true}}"></app-header>
+<view class="container">
+  <view class="form-group">
+    <view class="label">{{i18n.t(locale,'所属小区')}}</view>
+    <picker bindchange="onCommunityChange" value="{{communityIndex}}" range="{{communities}}" range-key="communityName">
+      <view class="picker-content {{communityIndex !== -1 ? '' : 'placeholder'}}">
+        {{communityIndex !== -1 ? communities[communityIndex].communityName : i18n.t(locale,'请选择您居住的小区')}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="form-group">
+    <view class="label">{{i18n.t(locale,'详细地址')}}</view>
+    <textarea 
+      class="address-input" 
+      value="{{address}}" 
+      placeholder="{{i18n.t(locale,'请输入门牌号等详细地址信息')}}" 
+      bindinput="handleInput"
+      maxlength="200"
+    ></textarea>
+    <view class="word-count">{{address.length}}/200</view>
+  </view>
+
+  <view class="btn-area">
+    <button class="save-btn" bindtap="handleSave" loading="{{loading}}">{{i18n.t(locale,'保存')}}</button>
+  </view>
+</view>

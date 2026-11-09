@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "app-header": "/components/header/index",
+    "app-tabbar": "/components/tabbar/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-tab": "@vant/weapp/tab/index"
+  }
+}

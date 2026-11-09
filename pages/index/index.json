@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "app-header": "/components/header/index",
+    "app-swiper": "/components/swiper/index",
+    "app-tabbar": "/components/tabbar/index",
+    "app-order-list": "/components/orderList/index",
+    "app-service-list": "/components/serviceList/index"
+  }
+}

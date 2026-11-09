@@ -1,0 +1,162 @@
+.orders-container { padding: 24rpx; }
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.order-item {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 0;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  border: none;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #F5F6F8;
+}
+
+.order-id {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.order-id .label {
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.order-id .value {
+  font-size: 30rpx;
+  color: #1A1A1A;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.status-tag {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+  background: rgba(22, 119, 255, 0.1);
+  color: #1677FF;
+  font-weight: 500;
+}
+
+.card-content {
+  padding: 24rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+  line-height: 1.5;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  width: 140rpx;
+  font-size: 26rpx;
+  color: #999999;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: #666666;
+  flex: 1;
+}
+
+.info-value.dim {
+  color: #999999;
+  font-size: 24rpx;
+}
+
+.info-value.warning {
+  color: #F53F3F;
+}
+
+.info-value.price {
+  color: #FF9A2E;
+  font-weight: 600;
+}
+
+.info-divider {
+  height: 1rpx;
+  background: #F5F6F8;
+  margin: 20rpx 0;
+}
+
+.card-footer {
+  padding: 24rpx;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1rpx solid #EEF0F3;
+}
+
+.total-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.total-price .label {
+  font-size: 26rpx;
+  color: #666666;
+}
+
+.total-price .amount {
+  font-size: 40rpx;
+  color: #1A1A1A;
+  font-weight: 700;
+  font-family: 'DIN Alternate', sans-serif;
+}
+
+.action-btn-group {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  margin: 0 !important;
+  font-size: 26rpx !important;
+  font-weight: 500;
+  border-radius: 32rpx !important;
+  padding: 0 24rpx !important;
+  height: 56rpx !important;
+  line-height: 54rpx !important;
+}
+
+.outline-btn {
+  background: #fff !important;
+  color: #666666 !important;
+  border: 1rpx solid #D9DCE1 !important;
+  box-shadow: none !important;
+}
+
+.outline-btn:active {
+  background: #EEF0F3 !important;
+  border-color: #999999 !important;
+}
+
+.bottom-space { height: 72px; }
+
+.empty-state {
+  text-align: center;
+  padding-top: 100rpx;
+  color: #999;
+  font-size: 28rpx;
+}

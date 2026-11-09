@@ -1,0 +1,18 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<view class="swiper-wrapper" style="height: {{height}}px;">
+  <view class="swiper-card">
+    <swiper
+      class="swiper"
+      indicator-dots="true"
+      autoplay="{{autoplay}}"
+      interval="{{interval}}"
+      circular="true"
+    >
+      <block wx:for="{{images}}" wx:key="index">
+        <swiper-item>
+          <image class="slide-img" src="{{item}}" mode="aspectFill" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>

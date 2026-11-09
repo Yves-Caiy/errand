@@ -1,0 +1,29 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'首页')}}" showBack="{{false}}" bind:communityChange="onCommunityChange"></app-header>
+
+<view class="page-wrap">
+  <!-- 轮播图：主要内容区域第一行 -->
+  <app-swiper height="240" images="{{carouselImages}}" autoplay="{{true}}" interval="{{5000}}"></app-swiper>
+
+  <!-- 公告通知栏 -->
+  <view class="notice-bar" wx:if="{{noticeContent}}">
+    <view class="notice-icon">📢</view>
+    <view class="notice-content">
+      <view class="notice-text" style="animation-duration: {{noticeDuration}}s">{{noticeContent}}</view>
+    </view>
+  </view>
+
+  <!-- 服务与订单统一卡片：白底圆角，浅灰背景区分层级 -->
+  <view class="panel">
+    <view class="section-header">
+      <view class="section-title">{{i18n.t(locale,'服务专区')}}</view>
+      <view class="section-sub">{{i18n.t(locale,'线上下单 · 快速响应')}}</view>
+    </view>
+    <app-service-list types="{{productTypes}}"></app-service-list>
+    <view class="panel-divider"></view>
+    <app-order-list></app-order-list>
+  </view>
+</view>
+
+<!-- 底部自定义 TabBar -->
+<app-tabbar active="index" bind:tabChange="onTabChange"></app-tabbar>

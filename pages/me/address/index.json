@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "详细地址设置",
+  "usingComponents": {
+    "app-header": "/components/header/index"
+  },
+  "navigationStyle": "custom"
+}

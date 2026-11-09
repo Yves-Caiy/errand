@@ -1,0 +1,44 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'提现记录')}}" showBack="{{true}}"></app-header>
+
+<view class="container">
+  <view class="filter-bar">
+    <view class="filter-item {{statusFilter === -1 ? 'active' : ''}}" bindtap="onFilterTap" data-status="-1">{{i18n.t(locale,'全部')}}</view>
+    <view class="filter-item {{statusFilter === 0 ? 'active' : ''}}" bindtap="onFilterTap" data-status="0">{{i18n.t(locale,'申请中')}}</view>
+    <view class="filter-item {{statusFilter === 1 ? 'active' : ''}}" bindtap="onFilterTap" data-status="1">{{i18n.t(locale,'审核通过')}}</view>
+    <view class="filter-item {{statusFilter === 2 ? 'active' : ''}}" bindtap="onFilterTap" data-status="2">{{i18n.t(locale,'审核拒绝')}}</view>
+    <view class="filter-item {{statusFilter === 3 ? 'active' : ''}}" bindtap="onFilterTap" data-status="3">{{i18n.t(locale,'已打款')}}</view>
+  </view>
+  <view class="list">
+    <block wx:for="{{records}}" wx:key="id">
+      <view class="card">
+        <view class="row">
+          <text class="label">{{i18n.t(locale,'申请金额')}}</text>
+          <text class="value price">￥{{item.amountYuan}}</text>
+        </view>
+        <view class="row">
+          <text class="label">{{i18n.t(locale,'到账金额')}}</text>
+          <text class="value price">￥{{item.creditedAmountYuan}}</text>
+        </view>
+        <view class="row">
+          <text class="label">{{i18n.t(locale,'费率')}}</text>
+          <text class="value">{{item.rate}}%</text>
+        </view>
+        <view class="row">
+          <text class="label">{{i18n.t(locale,'状态')}}</text>
+          <text class="value">{{item.statusText}}</text>
+        </view>
+        <view class="row">
+          <text class="label">{{i18n.t(locale,'申请时间')}}</text>
+          <text class="value dim">{{item.createTimeText}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{records.length === 0 && !loading}}" class="empty">
+      <text>{{i18n.t(locale,'暂无记录')}}</text>
+    </view>
+    <view wx:if="{{loading}}" class="loading">{{i18n.t(locale,'加载中')}}...</view>
+    <view wx:if="{{!hasMore && records.length > 0}}" class="end">{{i18n.t(locale,'没有更多了')}}</view>
+  </view>
+  <view class="bottom-space"></view>
+</view>

@@ -1,0 +1,125 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'打印服务')}}" bindback="onBack"></app-header>
+
+<view class="container">
+  <!-- Main Form Card -->
+  <view class="form-card">
+    <view class="section-title">{{i18n.t(locale,'订单信息')}}</view>
+    
+    <!-- Printing Spec -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'打印规格')}}</text>
+      <picker class="picker-field" mode="selector" range="{{productRange}}" value="{{specIndex}}" bindchange="onSpecChange">
+        <view class="picker-value {{specIndex === null ? 'placeholder' : ''}}">
+          {{specIndex !== null ? productRange[specIndex] : i18n.t(locale,'请选择打印规格')}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- Paper Size -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'纸张大小')}}</text>
+      <picker class="picker-field" mode="selector" range="{{paperSizeOptions}}" value="{{paperSizeIndex}}" bindchange="onPaperSizeChange">
+        <view class="picker-value">
+          {{paperSizeOptions[paperSizeIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- Copies -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'打印份数')}}</text>
+      <view class="stepper">
+        <view class="step-btn minus {{copies <= 1 ? 'disabled' : ''}}" bindtap="onCopiesChange" data-type="minus">-</view>
+        <view class="step-val">{{copies}}</view>
+        <view class="step-btn plus" bindtap="onCopiesChange" data-type="plus">+</view>
+      </view>
+    </view>
+
+    <!-- File Upload -->
+    <view class="form-col">
+      <view class="label-row">
+        <text class="label">{{i18n.t(locale,'上传文件')}}</text>
+        <view class="file-tip">{{i18n.t(locale,'支持图片/PDF/Word')}}</view>
+      </view>
+      
+      <view class="file-list" wx:if="{{fileList.length > 0}}">
+        <view class="file-item" wx:for="{{fileList}}" wx:key="name">
+          <view class="file-icon">📄</view>
+          <text class="file-name">{{item.name}}</text>
+          <view class="remove-file" catchtap="onRemoveFile" data-index="{{index}}">×</view>
+        </view>
+      </view>
+      
+      <view class="upload-btn" bindtap="onChooseFile" wx:if="{{fileList.length === 0}}">
+        <text class="upload-icon">+</text>
+        <text>{{i18n.t(locale,'选择文件')}}</text>
+      </view>
+
+      <!-- Manual Page Count Input (Simulated Analysis) -->
+      <view class="page-count-row" wx:if="{{fileList.length > 0}}">
+        <text class="sub-label">{{i18n.t(locale,'文件总页数')}}</text>
+        <input class="page-input" type="number" value="{{totalPages}}" bindinput="onTotalPagesInput" />
+        <text class="unit">页</text>
+      </view>
+    </view>
+
+    <!-- WeChat -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'微信号')}}</text>
+      <input class="input-field" placeholder="{{i18n.t(locale,'请输入微信号')}}" value="{{wechat}}" bindinput="onWechatInput" />
+    </view>
+
+    <!-- Address -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'配送地址')}}</text>
+      <input class="input-field" placeholder="{{i18n.t(locale,'请输入配送地址')}}" value="{{address}}" bindinput="onAddressInput" />
+    </view>
+
+    <!-- Start Time -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'预约开始')}}</text>
+      <picker class="picker-field" mode="multiSelector" range="{{timeRange}}" value="{{startTimeIndex}}" bindchange="onStartTimeChange">
+        <view class="picker-value {{!startTime ? 'placeholder' : ''}}">
+          {{startTime || i18n.t(locale,'请选择开始时间')}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- End Time -->
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'预约结束')}}</text>
+      <picker class="picker-field" mode="multiSelector" range="{{timeRange}}" value="{{endTimeIndex}}" bindchange="onEndTimeChange">
+        <view class="picker-value {{!endTime ? 'placeholder' : ''}}">
+          {{endTime || i18n.t(locale,'请选择结束时间')}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- Remark -->
+    <view class="form-col">
+      <text class="label">{{i18n.t(locale,'备注')}}</text>
+      <textarea class="textarea-field" placeholder="{{i18n.t(locale,'备注单双面，若有其他特殊需求请备注')}}" value="{{remark}}" bindinput="onRemarkInput" />
+    </view>
+  </view>
+
+  <!-- Tip Card -->
+  <view class="tip-card">
+    <view class="tip-title">{{i18n.t(locale,'温馨提示')}}</view>
+    <view class="tip-content">{{i18n.t(locale,'预估价格与实际价格若有偏差，需线下协调补差价。')}}</view>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>
+
+<!-- Bottom Bar -->
+<view class="bottom-bar">
+  <view class="price-section">
+    <text class="price-label">{{i18n.t(locale,'预估价格')}}</text>
+    <view class="price-val">
+      <text class="currency">¥</text>
+      <text class="amount">{{totalPrice}}</text>
+    </view>
+  </view>
+  <button class="submit-btn" bindtap="onSubmit">{{i18n.t(locale,'立即下单')}}</button>
+</view>

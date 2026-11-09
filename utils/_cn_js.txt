@@ -1,0 +1,223 @@
+﻿ || '其他服务') : (this.data.typ
+ || '其他服务') : String(ord
+ === 1 ? '包月' : (it
+ 支付成功，r
+（重量为w
+: `切换到 ${k
+: `请填写第${i + 1}个快递的取件码`, icon: 'non
+: `请选择第${i + 1}个快递的规格`, icon: 'non
+: `请选择第${i + 1}项垃圾的规格`, icon: 'non
+: '阿强麻辣烫', d
+: '保存到相册失败', icon: 'non
+: '保存失败', icon: 'non
+: '操作成功', icon: 'succ
+: '操作失败', icon: 'non
+: '打开失败', icon: 'non
+: '当前订单状态不可取消', icon: 'non
+: '当前订单状态不可申请退款', icon: 'non
+: '登录成功', icon: 'succ
+: '登录失败', icon: 'non
+: '登录中...', mask: tru
+: '订单号异常', icon: 'non
+: '订单信息异常', icon: 'non
+: '更新成功', icon: 'succ
+: '购物车是空的', icon: 'non
+: '获取登录码失败', icon: 'non
+: '获取文件失败', icon: 'non
+: '加载失败', icon: 'non
+: '加载中', mask: tru
+: '接单成功', icon: 'succ
+: '结束时间必须晚于开始时间', icon: 'non
+: '仅支持图片/PDF/Word', icon: 'non
+: '咖啡小站', d
+: '可提现金额不足', icon: 'non
+: '昵称不能为空', icon: 'non
+: '请上传文件', icon: 'non
+: '请输入详细地址', icon: 'non
+: '请填写地址', icon: 'non
+: '请填写寄存物品', icon: 'non
+: '请填写家庭住址', icon: 'non
+: '请填写联系电话', icon: 'non
+: '请填写配送地址', icon: 'non
+: '请填写起始地址', icon: 'non
+: '请填写上门地址', icon: 'non
+: '请填写微信号', icon: 'non
+: '请填写要购买的菜品', icon: 'non
+: '请填写正确的预算金额', icon: 'non
+: '请完善收货地址', icon: 'non
+: '请先登录', icon: 'non
+: '请先阅读并同意法律条款及隐私政策', icon: 'non
+: '请选择打印规格', icon: 'non
+: '请选择代购规格', icon: 'non
+: '请选择服务规格', icon: 'non
+: '请选择寄存类型', icon: 'non
+: '请选择结束时间', icon: 'non
+: '请选择开始时间', icon: 'non
+: '请选择配送规格', icon: 'non
+: '请选择商品', icon: 'non
+: '请选择小区', icon: 'non
+: '请选择预约结束时间', icon: 'non
+: '请选择预约开始时间', icon: 'non
+: '取消成功', icon: 'succ
+: '申请成功', icon: 'succ
+: '申请已提交', icon: 'succ
+: '头像上传失败', icon: 'non
+: '外卖商家', d
+: '王阿姨家常菜', d
+: '网络错误', icon: 'non
+: '网络异常', icon: 'non
+: '微信号已复制', icon: 'succ
+: '未登录或登录过期', icon: 'non
+: '文档页数请手动确认', icon: 'non
+: '文件保存失败', icon: 'non
+: '文件保存异常', icon: 'non
+: '文件上传失败', icon: 'non
+: '下载失败', icon: 'non
+: '下载中', mask: tru
+: '小馄饨外卖店', d
+: '已保存到本地', icon: 'succ
+: '已保存到相册', icon: 'succ
+: '已加入购物车', icon: 'non
+: '已拒绝', icon: 'non
+: '已提交', icon: 'succ
+: '已退出登录', icon: 'non
+: '暂未开通', icon: 'non
+: '暂未配置', icon: 'non
+: '暂无打印文件', icon: 'non
+: '暂无联系方式', icon: 'non
+: '正在支付...', mask: tru
+: '支付成功', icon: 'succ
+: '至少需要一个快递', icon: 'non
+: '至少需要一项垃圾', icon: 'non
+] || `类型${ord
+}（重量${it
+}，取件码：${p.cod
+}-时长:${it
+ct} options 可选：{ nam
+d(2)}\n费率：${rat
+ight_max kg以内，价格：pric
+ight_max kg以内-价格pric
+ightMax}kg内，￥${pric
+ightMax}kg以内，价格：${pric
+ightMax}kg以内-价格${pric
+l: '订单', iconD
+l: '首页', iconD
+l: '外卖', iconD
+l: '我的', iconD
+nt(`地址：${shop.addr
+nt: `可提现金额：￥${p
+Parts.push(`备注：${r
+Parts.push(`菜品：${it
+Parts.push(`打印规格：${sp
+Parts.push(`代购规格：${sp
+Parts.push(`服务规格：${sp
+Parts.push(`寄存类型：${sp
+Parts.push(`寄存物品：${it
+Parts.push(`配送规格：${sp
+Parts.push(`需要在${startTim
+Parts.push(`预算：${budg
+rInfo使用的是 nickNam
+rr.msg) || '接单失败', icon: 'non
+rror('保存用户信息失败', 
+rror('更新用户信息失败', 
+rror('获取用户信息失败', 
+rror('加载用户信息失败', 
+s.msg || '操作失败', icon: 'non
+s.msg || '更新失败', icon: 'non
+s.msg || '获取文件失败', icon: 'non
+s.msg || '获取详情失败', icon: 'non
+s.msg || '接单失败', icon: 'non
+s.msg || '取消失败', icon: 'non
+s.msg || '申请失败', icon: 'non
+s.msg || '添加失败', icon: 'non
+s.msg || '下单失败', icon: 'non
+s.msg || '支付失败', icon: 'non
+s.msg) || '接单失败', icon: 'non
+st.js 会处理 401/500-unlogg
+x + 1}.规格：${sp
+x + 1}.垃圾规格：${sp
+xt: '上传中...' }).th
+xtraInfo.push(`备注：${r
+xtraInfo.push(`文件列表：${fil
+包年
+保存成功
+保存失败
+便民超市
+超市
+打印
+打印服务
+代购服务
+代买菜
+代扔垃圾
+待接单
+待支付
+登录失败
+店铺
+更新中
+固定时长
+欢迎光临
+家常快餐，量足实惠，套餐任选
+接单失败
+接单员拒绝
+接单中...
+快递代拿
+垃圾代扔
+麻辣烫、冒菜、凉面，支持自选配菜
+配送中
+其他
+请输入退款原因
+请先绑定小区信息
+全部
+确定拒绝该派单吗？
+确定清空购物车吗？
+确定要接下此单吗？
+确定要取消订单吗？
+确定要删除该商品吗？
+确定要申请退款吗？
+确定要退出登录吗？
+确认服务已完成吗？
+确认提现
+确认要接下此单吗？
+热乎馄饨，现煮现送，校园免配送费
+上传返回值解析失败
+上传文件中...
+上传中...
+申请中
+审核拒绝
+审核提醒
+审核通过
+-时长:duration-价格:pric
+手冲咖啡、轻食三明治，工作学习好伴侣
+首页
+授权失败，请重试
+套餐
+提交失败
+提交中
+提示
+退款中
+外卖
+万能服务
+网络错误
+未绑定小区
+未登录或登录已过期
+未支付
+未知状态
+文件
+无
+物品代送
+物品寄存
+系统会在三天内审核完并安排人工转账
+校园便民超市
+需要授权手机号才能完成登录
+阳光小区
+已打款
+已接单
+已取消
+已退款
+已完成
+已支付
+用户申请退款
+用户主动取消
+暂无
+支付失败
+知道了

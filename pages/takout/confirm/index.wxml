@@ -1,0 +1,53 @@
+<app-header title="确认订单" showBack="{{true}}"></app-header>
+<view class="container">
+  <view class="info-card">
+    <view class="form-item border-bottom">
+      <view class="label">联系人</view>
+      <input class="input" type="text" value="{{userInfo.nickname}}" placeholder="请填写收货人姓名" bindinput="onNameInput" />
+    </view>
+    <view class="form-item border-bottom">
+      <view class="label">联系电话</view>
+      <input class="input" type="number" maxlength="11" value="{{userInfo.phone}}" placeholder="请填写收货人手机号" bindinput="onPhoneInput" />
+    </view>
+    <view class="form-item">
+      <view class="label">配送地址</view>
+      <view class="address-input-box">
+        <view class="community-tag" wx:if="{{userInfo.communityName}}">{{userInfo.communityName}}</view>
+        <input class="input" type="text" value="{{userInfo.detailAddress}}" placeholder="例：8号楼808室" bindinput="onAddressInput" />
+      </view>
+    </view>
+  </view>
+
+  <view class="items-card">
+    <view class="card-title">商品明细</view>
+    <view class="item" wx:for="{{items}}" wx:key="id">
+      <image class="item-img" src="{{item.imageUrl || item.img}}" mode="aspectFill"></image>
+      <view class="item-info">
+        <view class="item-name">{{item.productName || item.name}}</view>
+        <view class="item-price-row">
+          <view class="price">¥{{(item.price || item.unitPrice) / 100}}</view>
+          <view class="qty">x{{item.quantity}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="note-card">
+    <view class="note-label">备注</view>
+    <textarea 
+      class="note-input" 
+      placeholder="请输入备注信息（选填）" 
+      bindinput="onNoteInput" 
+      auto-height 
+      maxlength="200"
+    />
+  </view>
+
+  <view class="bottom-bar">
+    <view class="price-info">
+      <text>实付：</text>
+      <text class="amount">¥{{totalAmount}}</text>
+    </view>
+    <button class="submit-btn" bindtap="onSubmitOrder">立即下单</button>
+  </view>
+</view>

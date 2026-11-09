@@ -1,0 +1,85 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'外卖跑腿订单')}}" showBack="{{true}}"></app-header>
+
+<view class="container">
+  <view class="order-list">
+    <block wx:for="{{orders}}" wx:key="id">
+      <view class="order-item" bindtap="onViewDetail" data-id="{{item.id}}">
+        <!-- 头部：订单号 + 状态 -->
+        <view class="card-header">
+          <view class="order-id">
+            <text class="label">{{i18n.t(locale,'订单号')}}</text>
+            <text class="value">{{item.orderNo}}</text>
+          </view>
+          <view class="status-tag">{{i18n.t(locale, statusLabel[item.status])}}</view>
+        </view>
+
+        <!-- 内容区域 -->
+        <view class="card-content">
+          <!-- 服务类型 -->
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'服务类型')}}</text>
+            <text class="info-value" style="color: #1677FF; font-weight: 500;">{{i18n.t(locale, item.cardTag)}}</text>
+          </view>
+
+          <!-- 外卖/超市单显示 -->
+          <view class="info-row" wx:if="{{item.startAddress}}">
+            <text class="info-label">{{i18n.t(locale,'取货/商家')}}</text>
+            <text class="info-value">{{item.startAddress}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.endAddress}}">
+            <text class="info-label">{{i18n.t(locale,'送达地址')}}</text>
+            <text class="info-value">{{item.endAddress}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'小区')}}</text>
+            <text class="info-value">{{item.communityName}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'具体地址')}}</text>
+            <text class="info-value">{{item.detailAddress}}</text>
+          </view>
+          <view class="info-row" wx:if="{{item.itemDesc}}">
+            <text class="info-label">{{i18n.t(locale,'备注/需求')}}</text>
+            <text class="info-value">{{item.itemDesc}}</text>
+          </view>
+
+          <view class="info-divider"></view>
+          
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'下单时间')}}</text>
+            <text class="info-value dim">{{item.createTime}}</text>
+          </view>
+          <view class="info-row">
+            <text class="info-label">{{i18n.t(locale,'服务说明')}}</text>
+            <text class="info-value dim">{{item.note || i18n.t(locale,'无')}}</text>
+          </view>
+        </view>
+
+        <!-- 底部：价格与操作 -->
+        <view class="card-footer">
+          <view class="total-price">
+            <text class="label">{{i18n.t(locale,'预计收入')}}</text>
+            <text class="amount">￥{{item.actualAmount}}</text>
+          </view>
+          
+          <view class="action-btn-group">
+            <!-- 待接单(1) 且 已支付(1) 显示接单按钮 -->
+            <button 
+              wx:if="{{item.status === 1 && item.payStatus === 1}}" 
+              class="action-btn primary-btn" 
+              size="mini" 
+              catchtap="onAcceptOrder" 
+              data-id="{{item.id}}"
+            >{{i18n.t(locale,'接单')}}</button>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <view wx:if="{{orders.length === 0 && !loading}}" class="empty-state">
+      <text>{{i18n.t(locale,'暂无待接单的外卖跑腿订单')}}</text>
+    </view>
+  </view>
+</view>

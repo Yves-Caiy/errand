@@ -1,0 +1,31 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<view class="main">
+  <view class="content">
+    <image class="bg-img" src="../../static/bg/login_bg.jpg" mode="aspectFill"></image>
+    <view class="bg-overlay"></view>
+
+    <!-- 品牌标题区：社区便民服务主题 -->
+    <view class="brand">
+      <view class="brand-eyebrow">COMMUNITY · ON-DEMAND</view>
+      <view class="brand-title">{{i18n.t(locale,'社区便民服务')}}</view>
+      <view class="brand-sub">{{i18n.t(locale,'跑腿 · 超市 · 外卖　一键到家')}}</view>
+      <view class="brand-line"></view>
+    </view>
+
+    <view class="login-view">
+      <button class="login-button" wx:if="{{!isSelected}}" bindtap="clickLoginButton">
+        <text class="button-text">{{i18n.t(locale,'一键登录')}}</text>
+      </button>
+
+      <button class="login-button" wx:elif="{{isSelected}}" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">
+        <text class="button-text">{{i18n.t(locale,'一键登录')}}</text>
+      </button>
+
+      <view class="login-tip">
+        <view class="select-view {{isSelected ? 'selected' : ''}}" bindtap="clickSelectView"></view>
+        <text class="tip-text">{{i18n.t(locale,'已阅读并同意')}}</text>
+        <text class="tip-text-highlight" bindtap="clickLegalTerms">{{i18n.t(locale,'《法律条款及隐私政策》')}}</text>
+      </view>
+    </view>
+  </view>
+</view>

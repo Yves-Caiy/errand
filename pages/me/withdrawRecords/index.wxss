@@ -1,0 +1,54 @@
+.container {
+  display: block;
+  padding: 8px 12px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #F5F6F8;
+}
+.filter-bar {
+  display: flex;
+  gap: 12rpx;
+  padding: 8rpx 0 16rpx;
+}
+.filter-item {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 8rpx 16rpx;
+  font-size: 26rpx;
+  color: #666;
+  border: 1rpx solid #EEF0F3;
+}
+.filter-item.active {
+  color: #fff;
+  background: #1677FF;
+  border-color: #1677FF;
+}
+.list { width: 100%; }
+.card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin-bottom: 12rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.04);
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rpx 0;
+}
+.label { color: #666; font-size: 26rpx; }
+.value { color: #1A1A1A; font-size: 26rpx; }
+.price { color: #FF9A2E; }
+.dim { color: #999; }
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 40rpx 0;
+}
+.loading, .end {
+  text-align: center;
+  color: #999;
+  padding: 24rpx 0;
+}
+.bottom-space { height: 24rpx; }

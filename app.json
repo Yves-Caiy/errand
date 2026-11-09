@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/takout/index",
+    "pages/takout/order/index",
+    "pages/takout/confirm/index",
+    "pages/orders/index",
+    "pages/orders/accepted/index",
+    "pages/orders/takeout/index",
+    "pages/orders/market/index",
+    "pages/orders/detail/index",
+    "pages/me/index",
+    "pages/me/address/index",
+    "pages/me/withdrawRecords/index",
+    "pages/package/buy/index",
+    "pages/package/my/index",
+    "pages/service/express/index",
+    "pages/service/trash/index",
+    "pages/service/grocery/index",
+    "pages/service/delivery/index",
+    "pages/service/shop/index",
+    "pages/service/universal/index",
+    "pages/service/print/index",
+    "pages/service/child/index",
+    "pages/service/storage/index",
+    "pages/service/market/index",
+    "pages/legal/legal"
+  ],
+  "entryPagePath": "pages/index/index",
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationStyle": "custom"
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,75 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<header title="{{i18n.t(locale,'订单详情')}}" showBack="{{true}}"></header>
+
+<view class="container">
+  <!-- 配送信息 -->
+  <view class="detail-card">
+    <view class="section-title">{{i18n.t(locale,'配送信息')}}</view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'订单状态')}}</text>
+      <text class="info-value" style="font-weight: bold; color: #1677FF;">{{orderStatusText}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'支付状态')}}</text>
+      <text class="info-value">{{payStatusText}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'订单编号')}}</text>
+      <text class="info-value">{{order.orderNo}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'配送员')}}</text>
+      <text class="info-value">{{order.runnerNickname || i18n.t(locale,'等待接单')}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'所属小区')}}</text>
+      <text class="info-value">{{order.communityName}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'配送地址')}}</text>
+      <text class="info-value">{{order.detailAddress}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">{{i18n.t(locale,'下单时间')}}</text>
+      <text class="info-value">{{order.createTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.payTime}}">
+      <text class="info-label">{{i18n.t(locale,'支付时间')}}</text>
+      <text class="info-value">{{order.payTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.finishTime}}">
+      <text class="info-label">{{i18n.t(locale,'完成时间')}}</text>
+      <text class="info-value">{{order.finishTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.cancelReason}}">
+      <text class="info-label">{{i18n.t(locale,'取消原因')}}</text>
+      <text class="info-value">{{order.cancelReason}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.note}}">
+      <text class="info-label">{{i18n.t(locale,'服务说明')}}</text>
+      <text class="info-value">{{order.note}}</text>
+    </view>
+  </view>
+
+  <!-- 订单子项 -->
+  <view class="detail-card" wx:if="{{order.items && order.items.length > 0}}">
+    <view class="section-title">{{i18n.t(locale,'商品明细')}}</view>
+    <block wx:for="{{order.items}}" wx:key="id">
+      <view class="store-name" wx:if="{{item.storeName && (index === 0 || order.items[index-1].storeName !== item.storeName)}}">
+        <text>🏠 {{item.storeName}}</text>
+      </view>
+      <view class="product-item">
+        <text class="product-name">{{item.productName}}</text>
+        <view class="product-info">
+          <view class="product-qty">x{{item.quantity}}</view>
+          <view class="product-price">￥{{item.unitPrice / 100}}</view>
+        </view>
+      </view>
+    </block>
+    <view class="divider"></view>
+    <view class="info-row" style="margin-bottom: 0; align-items: center;">
+      <text class="info-label" style="font-weight: bold; color: #1A1A1A;">{{i18n.t(locale,'实付金额')}}</text>
+      <text class="info-value total-price">￥{{order.actualAmount / 100}}</text>
+    </view>
+  </view>
+</view>

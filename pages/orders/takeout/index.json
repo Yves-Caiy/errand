@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "澶栧崠璺戣吙璁㈠崟",
+  "usingComponents": {
+      "app-header": "/components/header/index"
+  },
+  "navigationStyle": "custom"
+}
+

@@ -1,0 +1,40 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'购买套餐')}}" showBack="{{true}}"></app-header>
+<view class="container">
+  <view class="package-list">
+    <block wx:if="{{packageList.length > 0}}">
+      <view class="package-item" wx:for="{{packageList}}" wx:key="id">
+        <view class="package-tag">{{item.typeName}}</view>
+        <view class="package-content">
+          <view class="package-header">
+            <text class="package-name">{{item.packageName}}</text>
+            <text class="package-duration">{{item.durationDays}}天</text>
+          </view>
+          
+          <view class="package-desc">
+            <text>{{item.includeService}}</text>
+          </view>
+
+          <view class="package-footer">
+            <view class="price-box">
+              <view wx:if="{{item.firstMonthPriceYuan}}" class="price-row">
+                <text class="label">{{i18n.t(locale,'首月特惠')}}</text>
+                <text class="symbol">¥</text>
+                <text class="current-price">{{item.firstMonthPriceYuan}}</text>
+                <text class="original-price">¥{{item.priceYuan}}</text>
+              </view>
+              <view wx:else class="price-row">
+                <text class="symbol">¥</text>
+                <text class="current-price">{{item.priceYuan}}</text>
+              </view>
+            </view>
+            <button class="buy-btn" bindtap="handleBuy" data-item="{{item}}">{{i18n.t(locale,'立即购买')}}</button>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty-state">
+      <text>{{i18n.t(locale,'暂无上架的套餐')}}</text>
+    </view>
+  </view>
+</view>

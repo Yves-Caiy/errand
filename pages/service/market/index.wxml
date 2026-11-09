@@ -1,0 +1,78 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'便民超市')}}" showBack="{{true}}" bind:back="onBack"></app-header>
+<view class="container">
+  <view class="shop-card">
+    <image class="shop-img" src="/static/icons/takeout.svg" mode="aspectFill" />
+    <view class="meta">
+      <view class="name">{{shopName}}</view>
+      <view class="desc">{{i18n.t(locale,'日用品、零食饮料，价格以线下为准')}}</view>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="menu-area">
+    <scroll-view class="category-pane" scroll-y="true">
+      <block wx:for="{{categories}}" wx:key="id">
+        <view class="category-item {{item.id===activeCat?'active':''}}" bindtap="onCategoryTap" data-id="{{item.id}}">{{item.name}}</view>
+      </block>
+    </scroll-view>
+    <scroll-view class="dish-pane" scroll-y="true">
+      <block wx:for="{{filteredGoods}}" wx:key="id">
+        <view class="dish-item">
+          <image class="dish-img" src="{{item.img}}" mode="aspectFill" />
+          <view class="dish-info">
+            <view class="info-line name">{{item.name}}</view>
+            <view class="info-line desc">{{item.desc}}</view>
+            <view class="info-line action-row">
+              <view class="price">￥{{item.price}}</view>
+              <button class="add-btn" data-id="{{item.id}}" bindtap="onAddTap">{{i18n.t(locale,'加入购物车')}}</button>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="bottom-space"></view>
+    </scroll-view>
+    </view>
+
+    <!-- 购物车悬浮图标 -->
+    <movable-area class="cart-movable-area">
+      <movable-view class="cart-movable-view" direction="all" x="{{cartX}}" y="{{cartY}}">
+        <view class="cart-icon-wrapper" bindtap="toggleCart">
+          <image class="cart-icon" src="/static/icons/shoppingcart.svg" mode="aspectFit" />
+          <view class="cart-badge" wx:if="{{cartCount > 0}}">{{cartCount}}</view>
+        </view>
+      </movable-view>
+    </movable-area>
+
+    <!-- 购物车弹窗 -->
+    <view class="cart-popup {{cartVisible ? 'show' : ''}}">
+      <view class="cart-header">
+        <text>{{i18n.t(locale,'购物车')}}</text>
+        <view class="clear-cart" bindtap="onClearCart">{{i18n.t(locale,'清空')}}</view>
+      </view>
+      <scroll-view class="cart-list" scroll-y>
+        <block wx:for="{{cartList}}" wx:key="id">
+          <view class="cart-item">
+            <icon type="{{item.isSelected ? 'success' : 'circle'}}" color="#07c160" size="20" data-index="{{index}}" bindtap="onToggleSelect" />
+            <image class="cart-item-img" src="{{item.imageUrl}}" mode="aspectFill" />
+            <view class="cart-item-info">
+              <view class="cart-item-name">{{item.productName}}</view>
+              <view class="cart-item-price">￥{{item.price / 100}}</view>
+            </view>
+            <view class="cart-item-action">
+              <view class="qty-btn minus" data-item="{{item}}" bindtap="onMinusQty">-</view>
+              <view class="qty-num">{{item.quantity}}</view>
+              <view class="qty-btn plus" data-item="{{item}}" bindtap="onPlusQty">+</view>
+            </view>
+          </view>
+        </block>
+        <view wx:if="{{cartList.length === 0}}" class="empty-cart">{{i18n.t(locale,'购物车是空的')}}</view>
+      </scroll-view>
+    </view>
+
+    <view class="checkout-bar">
+      <view class="total-price">{{i18n.t(locale,'合计：')}}￥{{totalPrice}}</view>
+      <button class="submit-btn" bindtap="onSubmit">{{i18n.t(locale,'下单')}}</button>
+    </view>
+  </view>
+</view>

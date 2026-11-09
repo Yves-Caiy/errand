@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "购买套餐",
+  "usingComponents": {
+    "app-header": "/components/header/index"
+  },
+  "navigationStyle": "custom"
+}

@@ -1,0 +1,148 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{serviceName}}" bindback="onBack"></app-header>
+<view class="container">
+  <!-- 快递列表表单 -->
+  <view class="form-card">
+    <view class="section-title">{{i18n.t(locale,'快递信息')}} (共{{packages.length}}个)</view>
+    
+    <block wx:for="{{packages}}" wx:key="index">
+      <view class="package-item">
+        <view class="package-header">
+          <text class="package-index">{{i18n.t(locale,'快递')}} #{{index + 1}}</text>
+          <view class="remove-btn" wx:if="{{packages.length > 1}}" bindtap="removePackage" data-index="{{index}}">{{i18n.t(locale,'删除')}}</view>
+        </view>
+        
+        <view class="form-row">
+          <text class="label">{{i18n.t(locale,'快递规格')}}</text>
+          <picker 
+            class="picker-field" 
+            mode="selector" 
+            range="{{productRange}}" 
+            value="{{item.specIndex}}" 
+            bindchange="onSpecChange" 
+            data-index="{{index}}"
+          >
+            <view class="picker-value {{item.specIndex !== null ? '' : 'placeholder'}}">
+              {{item.specIndex !== null ? productRange[item.specIndex] : i18n.t(locale,'请选择规格')}}
+            </view>
+          </picker>
+        </view>
+        
+        <view class="form-row">
+          <text class="label">{{i18n.t(locale,'取件码')}}</text>
+          <input 
+            class="input-field" 
+            placeholder="{{i18n.t(locale,'请输入取件码')}}" 
+            value="{{item.code}}" 
+            bindinput="onCodeInput" 
+            data-index="{{index}}"
+          />
+        </view>
+      </view>
+    </block>
+    
+    <view class="add-btn" bindtap="addPackage">
+      <text class="plus-icon">+</text> {{i18n.t(locale,'添加快递')}}
+    </view>
+  </view>
+
+  <!-- 配送地址、预约时间与备注 -->
+  <view class="form-card">
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'配送地址')}}</text>
+      <input 
+        class="input-field" 
+        placeholder="{{i18n.t(locale,'请输入配送地址')}}" 
+        value="{{address}}" 
+        bindinput="onAddressInput"
+      />
+    </view>
+
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'预约开始')}}</text>
+      <picker 
+        class="picker-field" 
+        mode="multiSelector" 
+        range="{{timeRange}}" 
+        value="{{startTimeIndex}}" 
+        bindchange="onStartTimeChange"
+      >
+        <view class="picker-value {{startTime ? '' : 'placeholder'}}">
+          {{startTime || i18n.t(locale,'请选择开始时间')}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">{{i18n.t(locale,'预约结束')}}</text>
+      <picker 
+        class="picker-field" 
+        mode="multiSelector" 
+        range="{{timeRange}}" 
+        value="{{endTimeIndex}}" 
+        bindchange="onEndTimeChange"
+      >
+        <view class="picker-value {{endTime ? '' : 'placeholder'}}">
+          {{endTime || i18n.t(locale,'请选择结束时间')}}
+        </view>
+      </picker>
+    </view>
+    
+    <view class="form-col">
+      <text class="label">{{i18n.t(locale,'备注信息')}}</text>
+      <textarea 
+        class="textarea-field" 
+        placeholder="{{i18n.t(locale,'如有其他特殊要求请在此备注')}}" 
+        value="{{remark}}" 
+        bindinput="onRemarkInput"
+      ></textarea>
+    </view>
+  </view>
+
+  <!-- 提示卡片 -->
+  <view class="tip-card">
+    <view class="tip-title">{{i18n.t(locale,'服务说明')}}</view>
+    <view class="tip-content">{{i18n.t(locale,'若价格与实际情况有差距，快递重量超重需线下补差价。')}}</view>
+  </view>
+
+  <!-- 快递大小示例 -->
+  <view class="size-guide-card">
+    <view class="section-title">{{i18n.t(locale,'快递大小示例')}}</view>
+    <view class="size-list">
+      <view class="size-item">
+        <image class="size-img" src="/static/images/size-xs.webp" mode="widthFix"></image>
+        <text class="size-label">{{i18n.t(locale,'超小件')}}</text>
+      </view>
+      <view class="size-item">
+        <image class="size-img" src="/static/images/size-s.webp" mode="widthFix"></image>
+        <text class="size-label">{{i18n.t(locale,'小件')}}</text>
+      </view>
+      <view class="size-item">
+        <image class="size-img" src="/static/images/size-m.webp" mode="widthFix"></image>
+        <text class="size-label">{{i18n.t(locale,'中件')}}</text>
+      </view>
+      <view class="size-item">
+        <image class="size-img" src="/static/images/size-l.webp" mode="widthFix"></image>
+        <text class="size-label">{{i18n.t(locale,'大件')}}</text>
+      </view>
+      <view class="size-item">
+        <image class="size-img" src="/static/images/size-xl.webp" mode="widthFix"></image>
+        <text class="size-label">{{i18n.t(locale,'超大件')}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>
+
+<!-- 底部栏 -->
+<view class="bottom-bar">
+  <view class="price-section">
+    <text class="price-label">{{i18n.t(locale,'预估价格')}}</text>
+    <view class="price-val">
+      <text class="currency">￥</text>
+      <text class="amount">{{totalPrice}}</text>
+    </view>
+  </view>
+  <button class="submit-btn" bindtap="onSubmit">{{i18n.t(locale,'立即下单')}}</button>
+</view>

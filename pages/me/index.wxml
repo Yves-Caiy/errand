@@ -1,0 +1,165 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'我的')}}" showBack="{{false}}"></app-header>
+
+<view class="container">
+  <!-- 个人信息卡片 -->
+  <view class="profile-card">
+    <!-- 头像与昵称 -->
+    <view class="user-section">
+      <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatarUrl || '/static/icons/user.svg'}}" mode="aspectFill"></image>
+      </button>
+      <view class="name-row">
+        <block wx:if="{{isLoggedIn}}">
+          <text class="name">{{userInfo.nickName || i18n.t(locale,'微信用户')}}</text>
+          <view class="edit-btn" bindtap="showEditModal">{{i18n.t(locale,'修改')}}</view>
+        </block>
+        <block wx:else>
+          <text class="name login-link" bindtap="onGoToLogin">{{i18n.t(locale,'点击立即去登录')}}</text>
+        </block>
+      </view>
+      <view class="community">
+        <image class="community-icon" src="/static/icons/location.svg" mode="aspectFit" />
+        {{userInfo.community || i18n.t(locale,'未绑定小区')}}
+      </view>
+    </view>
+
+    <!-- 佣金区域 -->
+    <view class="commission-section">
+      <view class="commission-data">
+        <view class="data-item">
+          <view class="value">￥{{userInfo.commissionTotal || '0.00'}}</view>
+          <view class="label">{{i18n.t(locale,'累计佣金')}}</view>
+        </view>
+        <view class="data-item">
+          <view class="value">￥{{userInfo.commissionPending || '0.00'}}</view>
+          <view class="label">{{i18n.t(locale,'待结算')}}</view>
+        </view>
+        <view class="data-item">
+          <view class="value">￥{{userInfo.commissionSettled || '0.00'}}</view>
+          <view class="label">{{i18n.t(locale,'已结算')}}</view>
+        </view>
+      </view>
+      <view class="withdraw-action">
+        <button class="withdraw-btn" bindtap="onWithdraw">{{i18n.t(locale,'提现')}}</button>
+        <view class="withdraw-tip" wx:if="{{withdrawRate > 0}}">{{i18n.t(locale,'费率')}}{{withdrawRate}}%</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 来单提醒（未读的智能派单 / 系统指派） -->
+  <view class="notice-card" wx:if="{{noticeList.length > 0}}">
+    <view class="notice-header">
+      <view class="notice-title">{{i18n.t(locale,'来单提醒')}}</view>
+      <view class="notice-count">{{noticeList.length}} {{i18n.t(locale,'单待处理')}}</view>
+    </view>
+    <view class="notice-item" wx:for="{{noticeList}}" wx:key="logId">
+      <view class="notice-main">
+        <view class="notice-row">
+          <text class="notice-no">{{item.orderNo}}</text>
+          <text class="notice-tag {{item.type === 'assign' ? 'assign' : 'push'}}">{{item.type === 'assign' ? i18n.t(locale,'系统指派') : i18n.t(locale,'新派单')}}</text>
+        </view>
+        <view class="notice-meta">{{item.communityName || i18n.t(locale,'未绑定小区')}} · {{item.detailAddress || '—'}}</view>
+        <view class="notice-meta notice-amount">
+          ￥{{item.amountText}}
+          <text wx:if="{{item.type === 'push'}}"> · {{i18n.t(locale,'剩余')}} {{item.remainText}}</text>
+        </view>
+      </view>
+      <view class="notice-actions">
+        <block wx:if="{{item.type === 'push'}}">
+          <view class="notice-btn reject" catchtap="onNoticeReject" data-orderid="{{item.orderId}}">{{i18n.t(locale,'拒绝')}}</view>
+          <view class="notice-btn accept" catchtap="onNoticeAccept" data-orderid="{{item.orderId}}">{{i18n.t(locale,'接单')}}</view>
+        </block>
+        <view class="notice-btn deal" wx:else catchtap="onNoticeDetail" data-orderid="{{item.orderId}}">{{i18n.t(locale,'去处理')}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表卡片 -->
+  <view class="feature-list">
+    <view class="feature-item" bindtap="onAcceptedOrders">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/isOwn.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'已接跑腿订单')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onAddressSettings">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/detailAddress.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'详细地址设置')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onBuyPackage">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/package.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'套餐购买')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onMyPackages">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/havePackage.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'已拥有的套餐')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onWithdrawRecords">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/package.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'提现记录')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onTakeoutOrders" wx:if="{{userInfo.isAdmin == 1}}">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/takeout.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'外卖跑腿订单')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onMarketOrders" wx:if="{{userInfo.isAdmin == 1}}">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/market.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'超市跑腿订单')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+    <view class="feature-item" bindtap="onSwitchLanguage">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/language.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'语言')}}</text>
+      </view>
+      <view class="item-right">
+        <text class="item-value">{{locale === 'ko' ? '한국어' : '简体中文'}}</text>
+        <text class="item-arrow">></text>
+      </view>
+    </view>
+    <view class="feature-item" bindtap="onLogout" wx:if="{{isLoggedIn}}">
+      <view class="item-left">
+        <view class="icon-chip"><image class="feature-icon" src="/static/icons/logout.svg" mode="aspectFit" /></view>
+        <text>{{i18n.t(locale,'退出登录')}}</text>
+      </view>
+      <view class="item-right">></view>
+    </view>
+  </view>
+
+  <!-- 昵称修改弹窗 -->
+  <view class="modal-mask" wx:if="{{showEditModal}}" bindtap="hideEditModal">
+    <view class="modal-content" catchtap="stopProp">
+      <view class="modal-header">{{i18n.t(locale,'修改昵称')}}</view>
+      <view class="modal-body">
+        <input type="nickname" class="nickname-input" placeholder="{{i18n.t(locale,'请输入昵称')}}" value="{{tempNickName}}" bindchange="onNickNameChange" bindinput="onNickNameInput"/>
+      </view>
+      <view class="modal-footer">
+        <button class="modal-btn cancel" bindtap="hideEditModal">{{i18n.t(locale,'取消')}}</button>
+        <button class="modal-btn confirm" bindtap="saveNickName">{{i18n.t(locale,'确定')}}</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-space"></view>
+</view>
+
+<app-tabbar active="me" bind:tabChange="onTabChange"></app-tabbar>

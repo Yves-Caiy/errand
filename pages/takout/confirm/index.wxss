@@ -1,0 +1,164 @@
+.container {
+  display: block;
+  padding: 0;
+  padding-bottom: 120rpx;
+  background-color: #F5F6F8;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.info-card, .items-card, .note-card {
+  background-color: #fff;
+  padding: 0 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  font-size: 30rpx;
+}
+
+.border-bottom {
+  border-bottom: 1rpx solid #EEF0F3;
+}
+
+.label {
+  width: 160rpx;
+  color: #1A1A1A;
+}
+
+.input {
+  flex: 1;
+  color: #1A1A1A;
+}
+
+.address-input-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.community-tag {
+  background-color: #e6f7f7;
+  color: #0958D9;
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+  white-space: nowrap;
+}
+
+.items-card {
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.item {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.item-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 10rpx;
+  margin-right: 20rpx;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.item-name {
+  font-size: 30rpx;
+  color: #1A1A1A;
+}
+
+.item-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  color: #ff4d4f;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.qty {
+  color: #999;
+  font-size: 26rpx;
+}
+
+.note-card {
+  padding: 30rpx;
+}
+
+.note-label {
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.note-input {
+  width: 100%;
+  min-height: 100rpx;
+  font-size: 28rpx;
+  color: #1A1A1A;
+}
+
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background-color: #fff;
+  display: flex;
+  justify-content: flex-end; /* Right align */
+  align-items: center;
+  padding: 0 30rpx;
+  box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05);
+  z-index: 100;
+}
+
+.price-info {
+  display: flex;
+  align-items: center;
+  margin-right: 30rpx;
+  font-size: 28rpx;
+}
+
+.amount {
+  color: #ff4d4f;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.submit-btn {
+  background: #1677FF;
+  color: #fff;
+  font-size: 30rpx;
+  padding: 0 60rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 35rpx;
+  margin: 0;
+}
+
+/* 按压反馈：颜色加深*/
+.submit-btn:active,
+.add-btn:active {
+  background: #0958D9;
+}

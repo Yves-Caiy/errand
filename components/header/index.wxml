@@ -1,0 +1,20 @@
+<wxs src="../../utils/i18n.wxs" module="i18n" />
+<view class="header" style="padding-top: {{statusBarHeight}}px;">
+  <view class="header-content">
+    <view class="left" bindtap="onBackTap" wx:if="{{showBack}}">
+      <image class="back-icon" src="/static/icons/back.svg" mode="aspectFit"></image>
+    </view>
+    <view class="left" wx:elif="{{!showBack && isHome}}">
+      <picker class="community-picker" mode="selector" range="{{communityList}}" range-key="communityName" value="{{communityIndex}}" bindchange="onCommunityChange">
+        <view class="picker-display">
+          <image class="loc-icon" src="/static/icons/location.svg" mode="aspectFit"></image>
+          <text class="picker-text">{{communityList.length ? communityList[communityIndex].communityName : i18n.t(locale,'选择小区')}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="left" wx:else></view>
+    <view class="title">{{i18n.t(locale, title)}}</view>
+    <view class="right"></view>
+  </view>
+</view>
+<view class="header-placeholder" style="height: {{headerHeight}}px;"></view>

@@ -1,0 +1,19 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'代送小孩')}}" bindback="onBack"></app-header>
+<view class="container">
+  <view class="form">
+    <view class="form-item">
+      <text class="label">{{i18n.t(locale,'微信号')}}</text>
+      <input class="input" placeholder="{{i18n.t(locale,'请输入微信号')}}" value="{{wechat}}" bindinput="onInput" data-key="wechat" />
+    </view>
+    <view class="form-item">
+      <text class="label">{{i18n.t(locale,'备注')}}</text>
+      <textarea class="textarea" placeholder="{{i18n.t(locale,'需要备注的事项')}}" value="{{remark}}" bindinput="onInput" data-key="remark"></textarea>
+    </view>
+  </view>
+  <view class="bottom-space"></view>
+  <view class="bottom">
+    <text class="total">{{i18n.t(locale,'价格：待商议')}}</text>
+    <button class="submit" bindtap="onSubmit">{{i18n.t(locale,'确认下单')}}</button>
+  </view>
+</view>

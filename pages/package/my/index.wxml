@@ -1,0 +1,22 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'我的套餐')}}" showBack="{{true}}"></app-header>
+<view class="container">
+  <view class="package-list">
+    <block wx:if="{{packageList.length > 0}}">
+      <view class="package-item" wx:for="{{packageList}}" wx:key="orderId">
+        <view class="package-header">
+          <text class="package-name">{{item.packageName}}</text>
+          <text class="package-status {{item.status === 1 ? 'active' : 'expired'}}">{{item.status === 1 ? i18n.t(locale,'生效中') : i18n.t(locale,'已过期')}}</text>
+        </view>
+        <view class="package-info">
+          <text>{{i18n.t(locale,'包含服务：')}}{{item.includeService || i18n.t(locale,'暂无描述')}}</text>
+          <text>{{i18n.t(locale,'购买时间：')}}{{item.buyTime}}</text>
+          <text>{{i18n.t(locale,'过期时间：')}}{{item.expireTime}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty-state">
+      <text>{{i18n.t(locale,'暂无已购买的套餐')}}</text>
+    </view>
+  </view>
+</view>

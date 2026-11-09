@@ -1,0 +1,27 @@
+<wxs src="../../../utils/i18n.wxs" module="i18n" />
+<app-header title="{{i18n.t(locale,'代买菜')}}" bindback="onBack"></app-header>
+<view class="container">
+  <view class="form">
+    <view class="form-item">
+      <text class="label">{{i18n.t(locale,'地址')}}</text>
+      <input class="input" placeholder="{{i18n.t(locale,'请输入地址')}}" value="{{address}}" bindinput="onInput" data-key="address" />
+    </view>
+    <view class="form-item">
+      <text class="label">{{i18n.t(locale,'菜品')}}</text>
+      <textarea class="textarea" placeholder="{{i18n.t(locale,'请填写要购买的菜品')}}" value="{{items}}" bindinput="onInput" data-key="items"></textarea>
+    </view>
+    <view class="form-item">
+      <text class="label">{{i18n.t(locale,'预算（元）')}}</text>
+      <input class="input" type="number" placeholder="{{i18n.t(locale,'请输入预算')}}" value="{{budget}}" bindinput="onInput" data-key="budget" />
+    </view>
+    <view class="form-item">
+      <text class="label">{{i18n.t(locale,'备注')}}</text>
+      <textarea class="textarea" placeholder="{{i18n.t(locale,'需要备注的事项')}}" value="{{remark}}" bindinput="onInput" data-key="remark"></textarea>
+    </view>
+  </view>
+  <view class="bottom-space"></view>
+  <view class="bottom">
+    <text class="total">{{i18n.t(locale,'价格：￥0（线下付款）')}}</text>
+    <button class="submit" bindtap="onSubmit">{{i18n.t(locale,'确认下单')}}</button>
+  </view>
+</view>

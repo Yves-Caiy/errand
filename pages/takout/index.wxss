@@ -1,0 +1,53 @@
+.takeout-container {
+  padding: 12px;
+}
+
+.shop-list {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 8px 12px;
+}
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.shop-item:last-child {
+  border-bottom: none;
+}
+
+.shop-img {
+  width: 56px;
+  height: 56px;
+  margin-right: 12px;
+}
+
+.shop-info {
+  flex: 1;
+}
+
+.shop-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.shop-desc {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #777;
+}
+
+.shop-contact {
+  margin-top: 2px;
+  font-size: 13px;
+  color: #777;
+}
+
+.bottom-space {
+  height: 72px; /* 给底部 TabBar 预留空间 */
+}

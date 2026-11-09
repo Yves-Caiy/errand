@@ -1,0 +1,81 @@
+.tabbar-placeholder {
+  width: 100%;
+}
+
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1rpx solid #EEF0F3;
+  z-index: 998;
+}
+
+.tabbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999999;
+  transition: transform 0.15s ease;
+}
+
+.tab-item:active {
+  transform: scale(0.92);
+}
+
+.icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.tab-item .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.tab-item:not(.active) .icon {
+  opacity: 0.5;
+}
+
+.icon-wrap .dot {
+  position: absolute;
+  top: -7px;
+  right: -11px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: #FF4D4F;
+  color: #FFFFFF;
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.tab-item .label {
+  font-size: 14px;
+}
+
+.tab-item.active {
+  color: #1677FF;
+  font-weight: 600;
+}

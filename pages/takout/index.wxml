@@ -1,0 +1,19 @@
+<app-header title="外卖" showBack="{{false}}"></app-header>
+
+<view class="takeout-container">
+  <view class="shop-list">
+    <block wx:for="{{shops}}" wx:key="id">
+      <view class="shop-item" bindtap="onShopTap" data-id="{{item.id}}">
+        <image class="shop-img" src="{{item.avatarUrl || '/static/icons/service.svg'}}" mode="aspectFill"></image>
+        <view class="shop-info">
+          <view class="shop-name">{{item.name}}</view>
+          <view class="shop-desc">地址：{{item.address || '暂无'}}</view>
+          <view class="shop-contact">电话：{{item.contact || '暂无'}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="bottom-space"></view>
+</view>
+
+<app-tabbar active="takeout" bind:tabChange="onTabChange"></app-tabbar>
