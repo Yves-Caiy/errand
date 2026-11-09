@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.axin.errand.mapper.ShoppingCartMapper">
+    <resultMap type="com.axin.errand.domain.ShoppingCart" id="ShoppingCartResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="productType"    column="product_type"    />
+        <result property="productId"    column="product_id"    />
+        <result property="storeId"    column="store_id"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="isSelected"    column="is_selected"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectVo">
+        select id, user_id, product_type, product_id, store_id, quantity, is_selected, create_time, update_time from shopping_cart
+    </sql>
+
+    <select id="selectShoppingCartList" parameterType="com.axin.errand.domain.ShoppingCart" resultMap="ShoppingCartResult">
+        <include refid="selectVo"/>
+        <where>
+            <if test="userId != null"> and user_id = #{userId}</if>
+            <if test="productType != null"> and product_type = #{productType}</if>
+            <if test="storeId != null"> and store_id = #{storeId}</if>
+        </where>
+    </select>
+
+    <select id="selectShoppingCartByUnique" resultMap="ShoppingCartResult">
+        <include refid="selectVo"/>
+        where user_id = #{userId} and product_type = #{productType} and product_id = #{productId}
+        <if test="storeId != null"> and store_id = #{storeId}</if>
+        <if test="storeId == null"> and store_id is null</if>
+    </select>
+    
+    <insert id="insertShoppingCart" parameterType="com.axin.errand.domain.ShoppingCart" useGeneratedKeys="true" keyProperty="id">
+        insert into shopping_cart (
+            <if test="userId != null">user_id,</if>
+            <if test="productType != null">product_type,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="storeId != null">store_id,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="isSelected != null">is_selected,</if>
+            create_time,
+            update_time
+        ) values (
+            <if test="userId != null">#{userId},</if>
+            <if test="productType != null">#{productType},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="storeId != null">#{storeId},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="isSelected != null">#{isSelected},</if>
+            sysdate(),
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateShoppingCart" parameterType="com.axin.errand.domain.ShoppingCart">
+        update shopping_cart
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="isSelected != null">is_selected = #{isSelected},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteShoppingCartById" parameterType="Long">
+        delete from shopping_cart where id = #{id}
+    </delete>
+
+    <delete id="deleteShoppingCartByIds">
+        delete from shopping_cart where user_id = #{userId} and id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteShoppingCartByUserId" parameterType="Long">
+        delete from shopping_cart where user_id = #{userId}
+    </delete>
+</mapper>

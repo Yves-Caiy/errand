@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.CommunityMapper">
+
+    <resultMap id="CommunityResult" type="com.axin.system.domain.Community">
+        <id     column="id"             property="id"/>
+        <result column="community_name" property="communityName"/>
+        <result column="address"        property="address"/>
+        <result column="contact_person" property="contactPerson"/>
+        <result column="contact_phone"  property="contactPhone"/>
+        <result column="is_enabled"     property="isEnabled"/>
+        <result column="create_time"    property="createTime"/>
+        <result column="update_time"    property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, community_name, address, contact_person, contact_phone, is_enabled, create_time, update_time
+    </sql>
+
+    <select id="selectCommunityById" parameterType="long" resultMap="CommunityResult">
+        SELECT <include refid="Base_Column_List"/> FROM community WHERE id = #{id}
+    </select>
+
+    <select id="selectCommunityByName" parameterType="string" resultMap="CommunityResult">
+        SELECT <include refid="Base_Column_List"/> FROM community WHERE community_name = #{communityName}
+    </select>
+
+    <select id="selectCommunityList" parameterType="com.axin.system.domain.Community" resultMap="CommunityResult">
+        SELECT <include refid="Base_Column_List"/> FROM community
+        <where>
+            <if test="communityName != null and communityName != ''">
+                AND community_name LIKE CONCAT('%', #{communityName}, '%')
+            </if>
+            <if test="address != null and address != ''">
+                AND address LIKE CONCAT('%', #{address}, '%')
+            </if>
+            <if test="contactPerson != null and contactPerson != ''">
+                AND contact_person LIKE CONCAT('%', #{contactPerson}, '%')
+            </if>
+            <if test="contactPhone != null and contactPhone != ''">
+                AND contact_phone = #{contactPhone}
+            </if>
+            <if test="isEnabled != null">
+                AND is_enabled = #{isEnabled}
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insertCommunity" parameterType="com.axin.system.domain.Community" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO community (community_name, address, contact_person, contact_phone, is_enabled, create_time, update_time)
+        VALUES (#{communityName}, #{address}, #{contactPerson}, #{contactPhone}, #{isEnabled}, NOW(), NOW())
+    </insert>
+
+    <update id="updateCommunity" parameterType="com.axin.system.domain.Community">
+        UPDATE community
+        <set>
+            <if test="communityName != null">community_name = #{communityName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCommunityByIds" parameterType="long">
+        DELETE FROM community WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.OrderDispatchLogMapper">
+
+    <resultMap id="OrderDispatchLogResult" type="com.axin.system.domain.OrderDispatchLog">
+        <id     column="id"               property="id"/>
+        <result column="order_id"         property="orderId"/>
+        <result column="runner_user_id"   property="runnerUserId"/>
+        <result column="score"            property="score"/>
+        <result column="dispatch_round"   property="dispatchRound"/>
+        <result column="dispatch_type"    property="dispatchType"/>
+        <result column="status"           property="status"/>
+        <result column="is_read"          property="isRead"/>
+        <result column="create_time"      property="createTime"/>
+        <result column="update_time"      property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_id, runner_user_id, score, dispatch_round, dispatch_type, status, is_read, create_time, update_time
+    </sql>
+
+    <insert id="insertOrderDispatchLog" parameterType="com.axin.system.domain.OrderDispatchLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_dispatch_log (order_id, runner_user_id, score, dispatch_round, dispatch_type, status, is_read, create_time, update_time)
+        VALUES (#{orderId}, #{runnerUserId}, #{score}, #{dispatchRound}, #{dispatchType}, #{status}, 0, NOW(), NOW())
+    </insert>
+
+    <select id="selectOrderDispatchLogList" parameterType="com.axin.system.domain.OrderDispatchLog" resultMap="OrderDispatchLogResult">
+        SELECT <include refid="Base_Column_List"/> FROM order_dispatch_log
+        <where>
+            <if test="orderId != null">AND order_id = #{orderId}</if>
+            <if test="runnerUserId != null">AND runner_user_id = #{runnerUserId}</if>
+            <if test="dispatchRound != null">AND dispatch_round = #{dispatchRound}</if>
+            <if test="status != null">AND status = #{status}</if>
+        </where>
+        ORDER BY create_time DESC, id DESC
+    </select>
+
+    <select id="selectLogsByOrderId" parameterType="long" resultMap="OrderDispatchLogResult">
+        SELECT <include refid="Base_Column_List"/> FROM order_dispatch_log WHERE order_id = #{orderId}
+        ORDER BY dispatch_round ASC, id ASC
+    </select>
+
+    <update id="updateStatus">
+        UPDATE order_dispatch_log SET status = #{status}, update_time = NOW() WHERE id = #{id}
+    </update>
+
+    <update id="updateStatusByOrderRound">
+        <!-- 仅收敛本轮仍处于「待接受」(status=1) 的推送记录；已拒绝(4)、已接受(2)等终态保持不变，
+             否则拒单记录会被覆盖为超时，导致「拒单后永久排除」失效 -->
+        UPDATE order_dispatch_log SET status = #{status}, update_time = NOW()
+        WHERE order_id = #{orderId} AND dispatch_round = #{round} AND status = 1
+    </update>
+
+    <update id="markOthersAccepted">
+        UPDATE order_dispatch_log SET status = 9, update_time = NOW()
+        WHERE order_id = #{orderId} AND status IN (1, 5) AND runner_user_id != #{runnerUserId}
+    </update>
+
+    <update id="markAccepted">
+        UPDATE order_dispatch_log SET status = 2, update_time = NOW()
+        WHERE order_id = #{orderId} AND runner_user_id = #{runnerUserId} AND status IN (1, 5)
+    </update>
+
+    <select id="countRounds" parameterType="long" resultType="int">
+        SELECT IFNULL(MAX(dispatch_round), 0) FROM order_dispatch_log WHERE order_id = #{orderId}
+    </select>
+
+    <update id="markNoticeRead">
+        UPDATE order_dispatch_log SET is_read = 1, update_time = NOW()
+        WHERE runner_user_id = #{runnerUserId} AND is_read = 0
+        <if test="logIds != null and logIds.size() > 0">
+            AND id IN
+            <foreach collection="logIds" item="logId" open="(" separator="," close=")">#{logId}</foreach>
+        </if>
+    </update>
+
+    <select id="selectPendingTakeoutOrderIds" resultType="long">
+        SELECT DISTINCT dl.order_id FROM order_dispatch_log dl
+        JOIN order_main o ON o.id = dl.order_id
+        WHERE o.order_status = 1 AND o.order_type = 1 AND o.runner_id IS NULL
+    </select>
+
+</mapper>

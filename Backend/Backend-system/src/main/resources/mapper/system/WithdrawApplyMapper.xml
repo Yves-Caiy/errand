@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.WithdrawApplyMapper">
+
+    <resultMap id="WithdrawApplyResult" type="com.axin.system.domain.WithdrawApply">
+        <id     column="id"               property="id"/>
+        <result column="user_id"          property="userId"/>
+        <result column="amount"           property="amount"/>
+        <result column="credited_amount"  property="creditedAmount"/>
+        <result column="rate"             property="rate"/>
+        <result column="status"           property="status"/>
+        <result column="pay_status"       property="payStatus"/>
+        <result column="remark"           property="remark"/>
+        <result column="create_time"      property="createTime"/>
+        <result column="update_time"      property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, amount, credited_amount, rate, status, pay_status, remark, create_time, update_time
+    </sql>
+
+    <select id="selectWithdrawApplyById" parameterType="long" resultMap="WithdrawApplyResult">
+        SELECT <include refid="Base_Column_List"/> FROM withdraw_apply WHERE id = #{id}
+    </select>
+
+    <select id="selectWithdrawApplyList" parameterType="com.axin.system.domain.WithdrawApply" resultMap="WithdrawApplyResult">
+        SELECT <include refid="Base_Column_List"/> FROM withdraw_apply
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="payStatus != null">AND pay_status = #{payStatus}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insertWithdrawApply" parameterType="com.axin.system.domain.WithdrawApply">
+        INSERT INTO withdraw_apply
+        (user_id, amount, credited_amount, rate, status, remark, create_time, update_time)
+        VALUES
+        (#{userId}, #{amount}, #{creditedAmount}, #{rate}, #{status}, #{remark}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateWithdrawApply" parameterType="com.axin.system.domain.WithdrawApply">
+        UPDATE withdraw_apply
+        <set>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="creditedAmount != null">credited_amount = #{creditedAmount},</if>
+            <if test="rate != null">rate = #{rate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = #{updateTime}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteWithdrawApplyByIds" parameterType="long">
+        DELETE FROM withdraw_apply WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

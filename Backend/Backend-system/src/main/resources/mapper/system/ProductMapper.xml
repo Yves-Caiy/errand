@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.ProductMapper">
+
+    <resultMap id="ProductResult" type="com.axin.system.domain.Product">
+        <id     column="id"                 property="id"/>
+        <result column="type_id"            property="typeId"/>
+        <result column="spec_name"          property="specName"/>
+        <result column="weight_min"         property="weightMin"/>
+        <result column="weight_max"         property="weightMax"/>
+        <result column="distance"           property="distance"/>
+        <result column="amount_min"         property="amountMin"/>
+        <result column="amount_max"         property="amountMax"/>
+        <result column="duration"           property="duration"/>
+        <result column="duration_unit"      property="durationUnit"/>
+        <result column="price_min"          property="priceMin"/>
+        <result column="price_max"          property="priceMax"/>
+        <result column="is_universal_custom" property="isUniversalCustom"/>
+        <result column="is_enabled"         property="isEnabled"/>
+        <result column="create_time"        property="createTime"/>
+        <result column="update_time"        property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, type_id, spec_name, weight_min, weight_max, distance, amount_min, amount_max, duration, duration_unit, price_min, price_max, is_universal_custom, is_enabled, create_time, update_time
+    </sql>
+
+    <select id="selectProductById" parameterType="long" resultMap="ProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM product WHERE id = #{id}
+    </select>
+
+    <select id="selectByTypeAndSpecName" resultMap="ProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM product
+        WHERE type_id = #{typeId} AND spec_name = #{specName} LIMIT 1
+    </select>
+
+    <select id="selectProductList" parameterType="com.axin.system.domain.Product" resultMap="ProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM product
+        <where>
+            <if test="typeId != null">AND type_id = #{typeId}</if>
+            <if test="specName != null and specName != ''">AND spec_name LIKE CONCAT('%', #{specName}, '%')</if>
+            <if test="isUniversalCustom != null">AND is_universal_custom = #{isUniversalCustom}</if>
+            <if test="isEnabled != null">AND is_enabled = #{isEnabled}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insertProduct" parameterType="com.axin.system.domain.Product" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product (
+            type_id, spec_name, weight_min, weight_max, distance, amount_min, amount_max,
+            duration, duration_unit, price_min, price_max, is_universal_custom, is_enabled, create_time, update_time
+        ) VALUES (
+            #{typeId}, #{specName}, #{weightMin}, #{weightMax}, #{distance}, #{amountMin}, #{amountMax},
+            #{duration}, #{durationUnit}, #{priceMin}, #{priceMax}, #{isUniversalCustom}, #{isEnabled}, NOW(), NOW()
+        )
+    </insert>
+
+    <update id="updateProduct" parameterType="com.axin.system.domain.Product">
+        UPDATE product
+        <set>
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="specName != null">spec_name = #{specName},</if>
+            <if test="weightMin != null">weight_min = #{weightMin},</if>
+            <if test="weightMax != null">weight_max = #{weightMax},</if>
+            <if test="distance != null">distance = #{distance},</if>
+            <if test="amountMin != null">amount_min = #{amountMin},</if>
+            <if test="amountMax != null">amount_max = #{amountMax},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="durationUnit != null">duration_unit = #{durationUnit},</if>
+            <if test="priceMin != null">price_min = #{priceMin},</if>
+            <if test="priceMax != null">price_max = #{priceMax},</if>
+            <if test="isUniversalCustom != null">is_universal_custom = #{isUniversalCustom},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteProductByIds" parameterType="long">
+        DELETE FROM product WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

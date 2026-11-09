@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.TakeawayProductMapper">
+
+    <resultMap id="TakeawayProductResult" type="com.axin.system.domain.TakeawayProduct">
+        <id     column="id"             property="id"/>
+        <result column="store_id"       property="storeId"/>
+        <result column="product_name"   property="productName"/>
+        <result column="price"          property="price"/>
+        <result column="image_url"      property="imageUrl"/>
+        <result column="product_type"   property="productType"/>
+        <result column="is_enabled"     property="isEnabled"/>
+        <result column="create_time"    property="createTime"/>
+        <result column="update_time"    property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, store_id, product_name, price, image_url, product_type, is_enabled, create_time, update_time
+    </sql>
+
+    <select id="selectTakeawayProductById" parameterType="long" resultMap="TakeawayProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM takeaway_product WHERE id = #{id}
+    </select>
+
+    <select id="selectTakeawayProductList" parameterType="com.axin.system.domain.TakeawayProduct" resultMap="TakeawayProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM takeaway_product
+        <where>
+            <if test="storeId != null">AND store_id = #{storeId}</if>
+            <if test="productName != null and productName != ''">AND product_name LIKE CONCAT('%', #{productName}, '%')</if>
+            <if test="productType != null and productType != ''">AND product_type = #{productType}</if>
+            <if test="isEnabled != null">AND is_enabled = #{isEnabled}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insertTakeawayProduct" parameterType="com.axin.system.domain.TakeawayProduct" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO takeaway_product (store_id, product_name, price, image_url, product_type, is_enabled, create_time, update_time)
+        VALUES (#{storeId}, #{productName}, #{price}, #{imageUrl}, #{productType}, #{isEnabled}, NOW(), NOW())
+    </insert>
+
+    <update id="updateTakeawayProduct" parameterType="com.axin.system.domain.TakeawayProduct">
+        UPDATE takeaway_product
+        <set>
+            <if test="storeId != null">store_id = #{storeId},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="productType != null">product_type = #{productType},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteTakeawayProductByIds" parameterType="long">
+        DELETE FROM takeaway_product WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+

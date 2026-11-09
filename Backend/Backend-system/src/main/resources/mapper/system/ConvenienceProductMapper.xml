@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.ConvenienceProductMapper">
+
+    <resultMap id="ConvenienceProductResult" type="com.axin.system.domain.ConvenienceProduct">
+        <id     column="id"             property="id"/>
+        <result column="product_name"   property="productName"/>
+        <result column="price"          property="price"/>
+        <result column="image_url"      property="imageUrl"/>
+        <result column="product_type"   property="productType"/>
+        <result column="is_enabled"     property="isEnabled"/>
+        <result column="create_time"    property="createTime"/>
+        <result column="update_time"    property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, product_name, price, image_url, product_type, is_enabled, create_time, update_time
+    </sql>
+
+    <select id="selectConvenienceProductById" parameterType="long" resultMap="ConvenienceProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM convenience_product WHERE id = #{id}
+    </select>
+
+    <select id="selectConvenienceProductByName" parameterType="string" resultMap="ConvenienceProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM convenience_product WHERE product_name = #{productName}
+    </select>
+
+    <select id="selectConvenienceProductList" parameterType="com.axin.system.domain.ConvenienceProduct" resultMap="ConvenienceProductResult">
+        SELECT <include refid="Base_Column_List"/> FROM convenience_product
+        <where>
+            <if test="productName != null and productName != ''">AND product_name LIKE CONCAT('%', #{productName}, '%')</if>
+            <if test="productType != null and productType != ''">AND product_type = #{productType}</if>
+            <if test="isEnabled != null">AND is_enabled = #{isEnabled}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insertConvenienceProduct" parameterType="com.axin.system.domain.ConvenienceProduct" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO convenience_product (product_name, price, image_url, product_type, is_enabled, create_time, update_time)
+        VALUES (#{productName}, #{price}, #{imageUrl}, #{productType}, #{isEnabled}, NOW(), NOW())
+    </insert>
+
+    <update id="updateConvenienceProduct" parameterType="com.axin.system.domain.ConvenienceProduct">
+        UPDATE convenience_product
+        <set>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="productType != null">product_type = #{productType},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteConvenienceProductByIds" parameterType="long">
+        DELETE FROM convenience_product WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+

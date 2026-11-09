@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.TakeawayStoreMapper">
+
+    <resultMap id="TakeawayStoreResult" type="com.axin.system.domain.TakeawayStore">
+        <id     column="id"             property="id"/>
+        <result column="community_id"   property="communityId"/>
+        <result column="store_name"     property="storeName"/>
+        <result column="avatar_url"     property="avatarUrl"/>
+        <result column="address"        property="address"/>
+        <result column="contact"        property="contact"/>
+        <result column="is_enabled"     property="isEnabled"/>
+        <result column="create_time"    property="createTime"/>
+        <result column="update_time"    property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, community_id, store_name, avatar_url, address, contact, is_enabled, create_time, update_time
+    </sql>
+
+    <select id="selectTakeawayStoreById" parameterType="long" resultMap="TakeawayStoreResult">
+        SELECT <include refid="Base_Column_List"/> FROM takeaway_store WHERE id = #{id}
+    </select>
+
+    <select id="selectTakeawayStoreByName" parameterType="string" resultMap="TakeawayStoreResult">
+        SELECT <include refid="Base_Column_List"/> FROM takeaway_store WHERE store_name = #{storeName}
+    </select>
+
+    <select id="selectTakeawayStoreList" parameterType="com.axin.system.domain.TakeawayStore" resultMap="TakeawayStoreResult">
+        SELECT <include refid="Base_Column_List"/> FROM takeaway_store
+        <where>
+            <if test="communityId != null">AND community_id = #{communityId}</if>
+            <if test="storeName != null and storeName != ''">AND store_name LIKE CONCAT('%', #{storeName}, '%')</if>
+            <if test="isEnabled != null">AND is_enabled = #{isEnabled}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insertTakeawayStore" parameterType="com.axin.system.domain.TakeawayStore" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO takeaway_store (community_id, store_name, avatar_url, address, contact, is_enabled, create_time, update_time)
+        VALUES (#{communityId}, #{storeName}, #{avatarUrl}, #{address}, #{contact}, #{isEnabled}, NOW(), NOW())
+    </insert>
+
+    <update id="updateTakeawayStore" parameterType="com.axin.system.domain.TakeawayStore">
+        UPDATE takeaway_store
+        <set>
+            <if test="communityId != null">community_id = #{communityId},</if>
+            <if test="storeName != null">store_name = #{storeName},</if>
+            <if test="avatarUrl != null">avatar_url = #{avatarUrl},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteTakeawayStoreByIds" parameterType="long">
+        DELETE FROM takeaway_store WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.axin.system.mapper.OrderPrintFileMapper">
+    
+    <resultMap type="OrderPrintFile" id="OrderPrintFileResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectOrderPrintFileVo">
+        select id, order_id, file_url, file_name, create_time from order_print_file
+    </sql>
+
+    <select id="selectOrderPrintFileList" parameterType="OrderPrintFile" resultMap="OrderPrintFileResult">
+        <include refid="selectOrderPrintFileVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderPrintFileById" parameterType="Long" resultMap="OrderPrintFileResult">
+        <include refid="selectOrderPrintFileVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderPrintFile" parameterType="OrderPrintFile" useGeneratedKeys="true" keyProperty="id">
+        insert into order_print_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="fileUrl != null and fileUrl != ''">#{fileUrl},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderPrintFile" parameterType="OrderPrintFile">
+        update order_print_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderPrintFileById" parameterType="Long">
+        delete from order_print_file where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderPrintFileByIds" parameterType="String">
+        delete from order_print_file where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

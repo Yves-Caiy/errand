@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.OrderMainMapper">
+
+    <resultMap id="OrderMainResult" type="com.axin.system.domain.OrderMain">
+        <id     column="id"               property="id"/>
+        <result column="order_no"         property="orderNo"/>
+        <result column="user_id"          property="userId"/>
+        <result column="runner_id"        property="runnerId"/>
+        <result column="community_id"     property="communityId"/>
+        <result column="detail_address"   property="detailAddress"/>
+        <result column="order_type"       property="orderType"/>
+        <result column="service_type"     property="serviceType"/>
+        <result column="start_address"    property="startAddress"/>
+        <result column="end_address"      property="endAddress"/>
+        <result column="delivery_address" property="deliveryAddress"/>
+        <result column="item_desc"        property="itemDesc"/>
+        <result column="budget"           property="budget"/>
+        <result column="spec_name"        property="specName"/>
+        <result column="wechat_id"        property="wechatId"/>
+        <result column="duration_type"    property="durationType"/>
+        <result column="duration_value"   property="durationValue"/>
+        <result column="total_amount"     property="totalAmount"/>
+        <result column="discount_amount"  property="discountAmount"/>
+        <result column="actual_amount"    property="actualAmount"/>
+        <result column="commission_amount" property="commissionAmount"/>
+        <result column="order_status"     property="orderStatus"/>
+        <result column="pay_status"       property="payStatus"/>
+        <result column="pay_method"       property="payMethod"/>
+        <result column="pay_time"         property="payTime"/>
+        <result column="finish_time"      property="finishTime"/>
+        <result column="cancel_reason"    property="cancelReason"/>
+        <result column="note"             property="note"/>
+        <result column="create_time"      property="createTime"/>
+        <result column="update_time"      property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_no, user_id, runner_id, community_id, detail_address, order_type, service_type, start_address, end_address, delivery_address, item_desc, budget, spec_name, wechat_id, duration_type, duration_value, total_amount, discount_amount, actual_amount, commission_amount, order_status, pay_status, pay_method, pay_time, finish_time, cancel_reason, note, create_time, update_time
+    </sql>
+
+    <select id="selectOrderMainById" parameterType="long" resultMap="OrderMainResult">
+        SELECT <include refid="Base_Column_List"/> FROM order_main WHERE id = #{id}
+    </select>
+
+    <select id="selectOrderMainList" parameterType="com.axin.system.domain.OrderMain" resultMap="OrderMainResult">
+        SELECT <include refid="Base_Column_List"/> FROM order_main
+        <where>
+            <if test="orderNo != null and orderNo != ''">AND order_no = #{orderNo}</if>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="runnerId != null">AND runner_id = #{runnerId}</if>
+            <if test="communityId != null">AND community_id = #{communityId}</if>
+            <if test="orderType != null">AND order_type = #{orderType}</if>
+            <if test="orderStatus != null">AND order_status = #{orderStatus}</if>
+            <if test="payStatus != null">AND pay_status = #{payStatus}</if>
+            <if test="serviceType != null and serviceType != ''">AND service_type = #{serviceType}</if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="insertOrderMain" parameterType="com.axin.system.domain.OrderMain" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_main (order_no, user_id, runner_id, community_id, detail_address, order_type, service_type, start_address, end_address, delivery_address, item_desc, budget, spec_name, wechat_id, duration_type, duration_value, total_amount, discount_amount, actual_amount, commission_amount, order_status, pay_status, pay_method, pay_time, finish_time, cancel_reason, note, create_time, update_time)
+        VALUES (#{orderNo}, #{userId}, #{runnerId}, #{communityId}, #{detailAddress}, #{orderType}, #{serviceType}, #{startAddress}, #{endAddress}, #{deliveryAddress}, #{itemDesc}, #{budget}, #{specName}, #{wechatId}, #{durationType}, #{durationValue}, #{totalAmount}, #{discountAmount}, #{actualAmount}, #{commissionAmount}, #{orderStatus}, #{payStatus}, #{payMethod}, #{payTime}, #{finishTime}, #{cancelReason}, #{note}, NOW(), NOW())
+    </insert>
+
+    <update id="updateOrderMain" parameterType="com.axin.system.domain.OrderMain">
+        UPDATE order_main
+        <set>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="runnerId != null">runner_id = #{runnerId},</if>
+            <if test="communityId != null">community_id = #{communityId},</if>
+            <if test="detailAddress != null">detail_address = #{detailAddress},</if>
+            <if test="orderType != null">order_type = #{orderType},</if>
+            <if test="serviceType != null">service_type = #{serviceType},</if>
+            <if test="startAddress != null">start_address = #{startAddress},</if>
+            <if test="endAddress != null">end_address = #{endAddress},</if>
+            <if test="deliveryAddress != null">delivery_address = #{deliveryAddress},</if>
+            <if test="itemDesc != null">item_desc = #{itemDesc},</if>
+            <if test="budget != null">budget = #{budget},</if>
+            <if test="specName != null">spec_name = #{specName},</if>
+            <if test="wechatId != null">wechat_id = #{wechatId},</if>
+            <if test="durationType != null">duration_type = #{durationType},</if>
+            <if test="durationValue != null">duration_value = #{durationValue},</if>
+            <if test="totalAmount != null">total_amount = #{totalAmount},</if>
+            <if test="discountAmount != null">discount_amount = #{discountAmount},</if>
+            <if test="actualAmount != null">actual_amount = #{actualAmount},</if>
+            <if test="commissionAmount != null">commission_amount = #{commissionAmount},</if>
+            <if test="orderStatus != null">order_status = #{orderStatus},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="payMethod != null">pay_method = #{payMethod},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
+            <if test="note != null">note = #{note},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="acceptOrder">
+        UPDATE order_main
+        SET runner_id = #{runnerId}, order_status = 2, update_time = NOW()
+        WHERE id = #{id} AND runner_id IS NULL AND order_status = 1
+    </update>
+
+</mapper>

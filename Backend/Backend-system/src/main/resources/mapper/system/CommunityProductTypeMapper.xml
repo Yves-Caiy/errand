@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.CommunityProductTypeMapper">
+
+    <resultMap id="CommunityProductTypeResult" type="com.axin.system.domain.CommunityProductType">
+        <id     column="id"               property="id"/>
+        <result column="community_id"     property="communityId"/>
+        <result column="product_type_id"  property="productTypeId"/>
+        <result column="is_enabled"       property="isEnabled"/>
+        <result column="sort_order"       property="sortOrder"/>
+        <result column="create_time"      property="createTime"/>
+        <result column="update_time"      property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, community_id, product_type_id, is_enabled, sort_order, create_time, update_time
+    </sql>
+
+    <select id="selectCommunityProductTypeById" parameterType="long" resultMap="CommunityProductTypeResult">
+        SELECT <include refid="Base_Column_List"/> FROM community_product_type WHERE id = #{id}
+    </select>
+
+    <select id="selectCommunityProductTypeList" parameterType="com.axin.system.domain.CommunityProductType" resultMap="CommunityProductTypeResult">
+        SELECT <include refid="Base_Column_List"/> FROM community_product_type
+        <where>
+            <if test="communityId != null">AND community_id = #{communityId}</if>
+            <if test="productTypeId != null">AND product_type_id = #{productTypeId}</if>
+            <if test="isEnabled != null">AND is_enabled = #{isEnabled}</if>
+        </where>
+        ORDER BY sort_order ASC, id DESC
+    </select>
+
+    <select id="selectByCommunityAndType" resultMap="CommunityProductTypeResult">
+        SELECT <include refid="Base_Column_List"/> FROM community_product_type
+        WHERE community_id = #{communityId} AND product_type_id = #{productTypeId} LIMIT 1
+    </select>
+
+    <insert id="insertCommunityProductType" parameterType="com.axin.system.domain.CommunityProductType" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO community_product_type (community_id, product_type_id, is_enabled, sort_order, create_time, update_time)
+        VALUES (#{communityId}, #{productTypeId}, #{isEnabled}, #{sortOrder}, NOW(), NOW())
+    </insert>
+
+    <update id="updateCommunityProductType" parameterType="com.axin.system.domain.CommunityProductType">
+        UPDATE community_product_type
+        <set>
+            <if test="communityId != null">community_id = #{communityId},</if>
+            <if test="productTypeId != null">product_type_id = #{productTypeId},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCommunityProductTypeByIds" parameterType="long">
+        DELETE FROM community_product_type WHERE id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

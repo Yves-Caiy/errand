@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.axin.system.mapper.RunnerProfileMapper">
+
+    <resultMap id="RunnerProfileResult" type="com.axin.system.domain.RunnerProfile">
+        <id     column="id"                    property="id"/>
+        <result column="user_id"               property="userId"/>
+        <result column="is_runner"             property="isRunner"/>
+        <result column="online_status"         property="onlineStatus"/>
+        <result column="is_all_community"      property="isAllCommunity"/>
+        <result column="max_concurrent"        property="maxConcurrent"/>
+        <result column="skills"                property="skills"/>
+        <result column="weight_boost"          property="weightBoost"/>
+        <result column="reject_streak"         property="rejectStreak"/>
+        <result column="dispatch_miss_rounds"  property="dispatchMissRounds"/>
+        <result column="last_assigned_time"    property="lastAssignedTime"/>
+        <result column="create_time"           property="createTime"/>
+        <result column="update_time"           property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, is_runner, online_status, is_all_community, max_concurrent, skills,
+        weight_boost, reject_streak, dispatch_miss_rounds, last_assigned_time, create_time, update_time
+    </sql>
+
+    <select id="selectRunnerProfileById" parameterType="long" resultMap="RunnerProfileResult">
+        SELECT <include refid="Base_Column_List"/> FROM runner_profile WHERE id = #{id}
+    </select>
+
+    <select id="selectRunnerProfileByUserId" parameterType="long" resultMap="RunnerProfileResult">
+        SELECT <include refid="Base_Column_List"/> FROM runner_profile WHERE user_id = #{userId} LIMIT 1
+    </select>
+
+    <select id="selectRunnerProfileList" parameterType="com.axin.system.domain.RunnerProfile" resultMap="RunnerProfileResult">
+        SELECT <include refid="Base_Column_List"/> FROM runner_profile
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="isRunner != null">AND is_runner = #{isRunner}</if>
+            <if test="onlineStatus != null">AND online_status = #{onlineStatus}</if>
+        </where>
+        ORDER BY update_time DESC
+    </select>
+
+    <insert id="insertRunnerProfile" parameterType="com.axin.system.domain.RunnerProfile" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO runner_profile (user_id, is_runner, online_status, is_all_community, max_concurrent, skills,
+                                    weight_boost, reject_streak, dispatch_miss_rounds, last_assigned_time, create_time, update_time)
+        VALUES (#{userId}, #{isRunner}, #{onlineStatus}, #{isAllCommunity}, #{maxConcurrent}, #{skills},
+                #{weightBoost}, #{rejectStreak}, #{dispatchMissRounds}, #{lastAssignedTime}, NOW(), NOW())
+    </insert>
+
+    <update id="updateRunnerProfile" parameterType="com.axin.system.domain.RunnerProfile">
+        UPDATE runner_profile
+        <set>
+            <if test="isRunner != null">is_runner = #{isRunner},</if>
+            <if test="onlineStatus != null">online_status = #{onlineStatus},</if>
+            <if test="isAllCommunity != null">is_all_community = #{isAllCommunity},</if>
+            <if test="maxConcurrent != null">max_concurrent = #{maxConcurrent},</if>
+            <if test="skills != null">skills = #{skills},</if>
+            <if test="weightBoost != null">weight_boost = #{weightBoost},</if>
+            <if test="rejectStreak != null">reject_streak = #{rejectStreak},</if>
+            <if test="dispatchMissRounds != null">dispatch_miss_rounds = #{dispatchMissRounds},</if>
+            <if test="lastAssignedTime != null">last_assigned_time = #{lastAssignedTime},</if>
+            update_time = NOW()
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="selectCommunityIdsByRunner" resultType="long">
+        SELECT community_id FROM runner_community WHERE runner_user_id = #{runnerUserId}
+    </select>
+
+    <delete id="deleteRunnerCommunityByRunner">
+        DELETE FROM runner_community WHERE runner_user_id = #{runnerUserId}
+    </delete>
+
+    <insert id="batchInsertRunnerCommunity">
+        INSERT INTO runner_community (runner_user_id, community_id, create_time)
+        VALUES
+        <foreach collection="communityIds" item="cid" separator=",">
+            (#{runnerUserId}, #{cid}, NOW())
+        </foreach>
+    </insert>
+
+    <select id="selectCandidates" resultType="com.axin.system.domain.vo.RunnerCandidateVO">
+        SELECT
+            rp.user_id                                                    AS userId,
+            wu.nickname                                                   AS nickname,
+            rp.max_concurrent                                             AS maxConcurrent,
+            rp.weight_boost                                               AS weightBoost,
+            rp.is_all_community                                            AS isAllCommunity,
+            (rp.is_all_community = 1 OR EXISTS (SELECT 1 FROM runner_community rc
+                WHERE rc.runner_user_id = rp.user_id AND rc.community_id = #{receiveCommunityId}))  AS coverReceive,
+            <choose>
+                <when test="storeCommunityId != null">
+                    (rp.is_all_community = 1 OR EXISTS (SELECT 1 FROM runner_community rc
+                        WHERE rc.runner_user_id = rp.user_id AND rc.community_id = #{storeCommunityId})) AS coverStore,
+                </when>
+                <otherwise>0 AS coverStore,</otherwise>
+            </choose>
+            rp.reject_streak                                              AS rejectStreak,
+            rp.dispatch_miss_rounds                                       AS dispatchMissRounds,
+            (SELECT COUNT(*) FROM order_main o WHERE o.runner_id = rp.user_id AND o.order_status IN (1, 2)) AS inTransit,
+            (SELECT COUNT(*) FROM order_main o WHERE o.runner_id = rp.user_id AND o.order_status = 3
+                AND o.pay_time IS NOT NULL AND o.order_type = 1 AND o.finish_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)) AS doneCnt,
+            (SELECT COUNT(*) FROM order_main o WHERE o.runner_id = rp.user_id AND o.order_status IN (3, 4)
+                AND o.order_type = 1 AND o.update_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)) AS handledCnt,
+            (SELECT AVG(TIMESTAMPDIFF(MINUTE, o.pay_time, o.finish_time)) FROM order_main o
+                WHERE o.runner_id = rp.user_id AND o.order_status = 3 AND o.pay_time IS NOT NULL AND o.order_type = 1) AS avgMinutes,
+            (SELECT MAX(o.finish_time) FROM order_main o WHERE o.runner_id = rp.user_id AND o.order_status = 3) AS lastFinishTime
+        FROM runner_profile rp
+        JOIN wechat_user wu ON wu.id = rp.user_id
+        WHERE rp.is_runner = 1 AND rp.online_status = 1 AND wu.is_enabled = 1
+          AND (rp.is_all_community = 1 OR EXISTS (SELECT 1 FROM runner_community rc
+                WHERE rc.runner_user_id = rp.user_id AND rc.community_id = #{receiveCommunityId}))
+    </select>
+
+</mapper>
